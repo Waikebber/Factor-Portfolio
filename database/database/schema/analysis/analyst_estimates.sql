@@ -1,0 +1,28 @@
+-- Analyst estimates
+CREATE TABLE analyst_estimates (
+    symbol TEXT,
+    date TEXT,
+    revenue_low REAL,
+    revenue_high REAL,
+    revenue_avg REAL,
+    ebitda_low REAL,
+    ebitda_high REAL,
+    ebitda_avg REAL,
+    ebit_low REAL,
+    ebit_high REAL,
+    ebit_avg REAL,
+    net_income_low REAL,
+    net_income_high REAL,
+    net_income_avg REAL,
+    sga_expense_low REAL,
+    sga_expense_high REAL,
+    sga_expense_avg REAL,
+    eps_low REAL,
+    eps_high REAL,
+    eps_avg REAL,
+    num_analysts_revenue INTEGER,
+    num_analysts_eps INTEGER,
+    last_updated TEXT,
+    PRIMARY KEY (symbol, date),
+    FOREIGN KEY (symbol) REFERENCES stocks(symbol)
+);
