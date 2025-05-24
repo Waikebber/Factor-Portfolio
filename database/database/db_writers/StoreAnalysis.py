@@ -7,16 +7,17 @@ class StoreAnalysis:
         self.conn = conn
         self.cursor = conn.cursor()
 
-    def store_rating(self, data: Dict[str, Any]):
+    def store_ratings(self, data: Dict[str, Any]):
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO ratings (
-                    symbol, rating, overall_score, discounted_cash_flow_score,
+                    symbol, date, rating, overall_score, discounted_cash_flow_score,
                     return_on_equity_score, return_on_assets_score, debt_to_equity_score,
                     price_to_earnings_score, price_to_book_score, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
             """, (
                 data.get("symbol"),
+                data.get("date"),
                 data.get("rating"),
                 data.get("overall_score"),
                 data.get("discounted_cash_flow_score"),
@@ -30,7 +31,7 @@ class StoreAnalysis:
         except Exception as e:
             logging.error(f"Error storing rating for {data.get('symbol')}: {e}")
 
-    def store_analyst_estimate(self, data: Dict[str, Any]):
+    def store_analyst_estimates(self, data: Dict[str, Any]):
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO analyst_estimates (

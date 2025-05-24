@@ -1,9 +1,10 @@
 from .StockDatabase import StockDatabase
-from .PopulateDatabase import PopulateDatabase
+from .services import DatabasePopulator
 from .db_writers import *
 
 __all__ = [
     'StockDatabase',
+    'DatabasePopulator',
     'StoreAnalysis',
     'StoreCorporateActions',
     'StoreValuation',
@@ -14,5 +15,4 @@ __all__ = [
     'StoreCore',
     'StoreAnalysisData',
     'DataFetcher',
-    'PopulateDatabase'
 ]

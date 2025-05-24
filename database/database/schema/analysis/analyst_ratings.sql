@@ -1,6 +1,7 @@
 -- Ratings
 CREATE TABLE ratings (
-    symbol TEXT PRIMARY KEY,
+    symbol TEXT,
+    date TEXT,
     rating TEXT,
     overall_score INTEGER,
     discounted_cash_flow_score INTEGER,
@@ -10,5 +11,6 @@ CREATE TABLE ratings (
     price_to_earnings_score INTEGER,
     price_to_book_score INTEGER,
     last_updated TEXT,
+    PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );
