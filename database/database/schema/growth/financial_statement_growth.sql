@@ -1,5 +1,5 @@
 -- Financial statement growth
-CREATE TABLE financial_statement_growth (
+CREATE TABLE IF NOT EXISTS financial_statement_growth (
     symbol TEXT,
     date TEXT,
     fiscal_year TEXT,

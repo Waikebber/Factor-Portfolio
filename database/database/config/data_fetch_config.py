@@ -59,26 +59,14 @@ class DataFetchConfig:
         'limit': 10
     })
 
-    share_float: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 1
-    })
-
     ################### Valuation ###################
-    discounted_cash_flow: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 1
-    })
-
-    levered_discounted_cash_flow: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 1
-    })
-
     enterprise_values: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 10,
+        'limit': 15,
         'period': 'annual'
     })
 
     owner_earnings: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 10
+        'limit': 15
     })
 
     ################### Financial Metrics ###################
@@ -123,32 +111,38 @@ class DataFetchConfig:
         'limit': 100
     })
 
-    economic_indicators: Dict[str, Any] = field(default_factory=lambda: {
+    treasury_rates: Dict[str, Any] = field(default_factory=lambda: {
         'limit': 1000
     })
 
     industry_pe: Dict[str, Any] = field(default_factory=lambda: {
         'limit': 1000,
-        'exchange': 'NYSE'
+        'industry': None,
+        'exchange': None
     })
 
     sector_pe: Dict[str, Any] = field(default_factory=lambda: {
         'limit': 1000,
-        'exchange': 'NYSE'
+        'sector': None,
+        'exchange': None
     })
 
     industry_performance: Dict[str, Any] = field(default_factory=lambda: {
         'limit': 1000,
-        'exchange': 'NYSE'
+        'industry': None,
+        'exchange': None
     })
 
     sector_performance: Dict[str, Any] = field(default_factory=lambda: {
         'limit': 1000,
-        'exchange': 'NYSE'
+        'sector': None,
+        'exchange': None
     })
 
-    treasury_rates: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 1000
+    economic_indicators: Dict[str, Any] = field(default_factory=lambda: {
+        'name': None,
+        'from_date': None,
+        'to_date': None
     })
 
     @classmethod
@@ -174,33 +168,29 @@ class DataFetchConfig:
         
         config_data = {
             'general': self.general,
+            'general_start_date': self.general_start_date,
             'max_retries': self.max_retries,
             'retry_delay': self.retry_delay,
             'batch_size': self.batch_size,
             'batch_delay': self.batch_delay,
-            'general_start_date': self.general_start_date,
             'analyst_estimates': self.analyst_estimates,
             'ratings': self.ratings,
             'grades': self.grades,
             'earnings': self.earnings,
-            'mergers_acquisitions': self.mergers_acquisitions,
             'prices': self.prices,
             'dividend_adjusted_prices': self.dividend_adjusted_prices,
             'dividends': self.dividends,
             'splits': self.splits,
             'market_cap': self.market_cap,
-            'share_float': self.share_float,
-            'discounted_cash_flow': self.discounted_cash_flow,
-            'levered_discounted_cash_flow': self.levered_discounted_cash_flow,
             'enterprise_values': self.enterprise_values,
             'owner_earnings': self.owner_earnings,
             'key_metrics': self.key_metrics,
             'financial_ratios': self.financial_ratios,
-            'stock_metrics': self.stock_metrics,
             'financial_statement_growth': self.financial_statement_growth,
             'income_statement_growth': self.income_statement_growth,
             'balance_sheet_growth': self.balance_sheet_growth,
             'cashflow_statement_growth': self.cashflow_statement_growth,
+            'mergers_acquisitions': self.mergers_acquisitions,
             'economic_indicators': self.economic_indicators,
             'industry_pe': self.industry_pe,
             'sector_pe': self.sector_pe,

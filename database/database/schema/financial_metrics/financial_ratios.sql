@@ -1,5 +1,5 @@
 -- Financial ratios
-CREATE TABLE financial_ratios (
+CREATE TABLE IF NOT EXISTS financial_ratios (
     symbol TEXT,
     date TEXT,
     fiscal_year TEXT,

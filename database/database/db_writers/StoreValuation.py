@@ -11,15 +11,13 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO enterprise_values (
-                    symbol, date, stock_price, number_of_shares, market_capitalization,
+                    symbol, date, number_of_shares,
                     minus_cash_and_cash_equivalents, add_total_debt, enterprise_value
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
-                data.get("stock_price"),
                 data.get("number_of_shares"),
-                data.get("market_capitalization"),
                 data.get("minus_cash_and_cash_equivalents"),
                 data.get("add_total_debt"),
                 data.get("enterprise_value")
@@ -32,20 +30,19 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO owner_earnings (
-                    symbol, date, fiscal_year, period, reported_currency,
-                    average_ppe, maintenance_capex, owners_earnings, growth_capex,
+                    symbol, date, period, fiscal_year, avg_ppe,
+                    growth_capex, maintenance_capex, owners_earnings,
                     owners_earnings_per_share
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
-                data.get("fiscal_year"),
                 data.get("period"),
-                data.get("reported_currency"),
-                data.get("average_ppe"),
+                data.get("fiscal_year"),
+                data.get("avg_ppe"),
+                data.get("growth_capex"),
                 data.get("maintenance_capex"),
                 data.get("owners_earnings"),
-                data.get("growth_capex"),
                 data.get("owners_earnings_per_share")
             ))
             self.conn.commit()
@@ -56,13 +53,12 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO levered_discounted_cash_flow (
-                    symbol, date, dcf, stock_price
-                ) VALUES (?, ?, ?, ?)
+                    symbol, date, dcf
+                ) VALUES (?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
                 data.get("dcf"),
-                data.get("stock_price")
             ))
             self.conn.commit()
         except Exception as e:
@@ -72,13 +68,12 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO discounted_cash_flow (
-                    symbol, date, dcf, stock_price
-                ) VALUES (?, ?, ?, ?)
+                    symbol, date, dcf
+                ) VALUES (?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
                 data.get("dcf"),
-                data.get("stock_price")
             ))
             self.conn.commit()
         except Exception as e:

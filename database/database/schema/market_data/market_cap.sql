@@ -1,5 +1,5 @@
 -- Market cap
-CREATE TABLE market_cap (
+CREATE TABLE IF NOT EXISTS market_cap (
     symbol TEXT,
     date TEXT,
     market_cap REAL,

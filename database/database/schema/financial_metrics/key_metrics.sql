@@ -1,5 +1,5 @@
 -- Key metrics
-CREATE TABLE key_metrics (
+CREATE TABLE IF NOT EXISTS key_metrics (
     symbol TEXT,
     date TEXT,
     fiscal_year TEXT,

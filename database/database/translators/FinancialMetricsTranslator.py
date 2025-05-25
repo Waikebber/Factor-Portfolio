@@ -156,8 +156,8 @@ class FinancialMetricsTranslator:
                 'ev_to_sales': safe_float(metrics.get('evToSales')),
                 'ev_to_operating_cash_flow': safe_float(metrics.get('evToOperatingCashFlow')),
                 'ev_to_free_cash_flow': safe_float(metrics.get('evToFreeCashFlow')),
-                'ev_to_ebitda': safe_float(metrics.get('evToEbitda')),
-                'net_debt_to_ebitda': safe_float(metrics.get('netDebtToEbitda')),
+                'ev_to_ebitda': safe_float(metrics.get('evToEBITDA')),
+                'net_debt_to_ebitda': safe_float(metrics.get('netDebtToEBITDA')),
                 'current_ratio': safe_float(metrics.get('currentRatio')),
                 'income_quality': safe_float(metrics.get('incomeQuality')),
                 'graham_number': safe_float(metrics.get('grahamNumber')),
@@ -195,7 +195,6 @@ class FinancialMetricsTranslator:
                 'net_current_asset_value': safe_float(metrics.get('netCurrentAssetValue')),
             }
             translated_metrics.append(translated)
-        
         return translated_metrics
 
     @staticmethod

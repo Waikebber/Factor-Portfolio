@@ -7,8 +7,17 @@ class StoreMarketData:
         self.conn = conn
         self.cursor = conn.cursor()
 
-    def store_price(self, symbol: str, date: str, data: Dict[str, Any]):
+    def store_price(self, data: Dict[str, Any]):
+        """
+        Store price data from the processed data dictionary.
+        
+        Args:
+            data: Dictionary containing price data with symbol and date keys
+        """
         try:
+            symbol = data.get('symbol')
+            date = data.get('date')
+            
             self.cursor.execute("""
                 INSERT OR REPLACE INTO price (
                     symbol, date, open, high, low, close, volume,
@@ -30,8 +39,17 @@ class StoreMarketData:
         except Exception as e:
             logging.error(f"Error storing price for {symbol} on {date}: {e}")
 
-    def store_dividend(self, symbol: str, date: str, data: Dict[str, Any]):
+    def store_dividend(self, data: Dict[str, Any]):
+        """
+        Store dividend data from the processed data dictionary.
+        
+        Args:
+            data: Dictionary containing dividend data with symbol and date keys
+        """
         try:
+            symbol = data.get('symbol')
+            date = data.get('date')
+            
             self.cursor.execute("""
                 INSERT OR REPLACE INTO dividends (
                     symbol, date, declaration_date, adj_dividend, dividend, yield, frequency
@@ -49,8 +67,11 @@ class StoreMarketData:
         except Exception as e:
             logging.error(f"Error storing dividend for {symbol} on {date}: {e}")
 
-    def store_split(self, symbol: str, date: str, data: Dict[str, Any]):
+    def store_split(self, data: Dict[str, Any]):
         try:
+            symbol = data.get('symbol')
+            date = data.get('date')
+
             self.cursor.execute("""
                 INSERT OR REPLACE INTO splits (
                     symbol, date, numerator, denominator
@@ -65,38 +86,40 @@ class StoreMarketData:
         except Exception as e:
             logging.error(f"Error storing split for {symbol} on {date}: {e}")
 
-    def store_dividend_adjusted_price(self, symbol: str, date: str, data: Dict[str, Any]):
+    def store_dividend_adjusted_price(self, data: Dict[str, Any]):
+        """
+        Store dividend adjusted price data from the processed data dictionary.
+        
+        Args:
+            data: Dictionary containing dividend adjusted price data with symbol and date keys
+        """
         try:
+            symbol = data.get('symbol')
+            date = data.get('date')
+            
             self.cursor.execute("""
                 INSERT OR REPLACE INTO dividend_adjusted_price_data (
-                    symbol, date, open, high, low, close, adj_open, adj_high, adj_low, adj_close,
-                    volume, unadjusted_volume, change, change_percent, vwap, label, change_over_time
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    symbol, date, adj_open, adj_high, adj_low, adj_close,
+                    volume
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
                 symbol,
                 date,
-                data.get("open"),
-                data.get("high"),
-                data.get("low"),
-                data.get("close"),
                 data.get("adj_open"),
                 data.get("adj_high"),
                 data.get("adj_low"),
                 data.get("adj_close"),
-                data.get("volume"),
-                data.get("unadjusted_volume"),
-                data.get("change"),
-                data.get("change_percent"),
-                data.get("vwap"),
-                data.get("label"),
-                data.get("change_over_time")
+                data.get("volume")
             ))
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing dividend adjusted price for {symbol} on {date}: {e}")
 
-    def store_market_cap(self, symbol: str, date: str, market_cap: float):
+    def store_market_cap(self, data: Dict[str, Any]):
         try:
+            symbol = data.get('symbol')
+            date = data.get('date')
+
             self.cursor.execute("""
                 INSERT OR REPLACE INTO market_cap (
                     symbol, date, market_cap
@@ -104,14 +127,31 @@ class StoreMarketData:
             """, (
                 symbol,
                 date,
-                market_cap
+                data.get("market_cap")
             ))
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing market cap for {symbol} on {date}: {e}")
 
-    def store_share_float(self, symbol: str, date: str, data: Dict[str, Any]):
+    def store_share_float(self, data: Dict[str, Any]):
+        """
+        Store share float data from the processed data dictionary.
+        
+        Args:
+            data: Dictionary containing share float data with symbol and date keys
+        """
         try:
+            if not isinstance(data, dict):
+                logging.error(f"Invalid data format for share float: {type(data)}")
+                return
+
+            symbol = data.get('symbol')
+            date = data.get('date')
+            
+            if not symbol or not date:
+                logging.error(f"Missing required fields for share float: symbol={symbol}, date={date}")
+                return
+
             self.cursor.execute("""
                 INSERT OR REPLACE INTO share_float (
                     symbol, date, free_float, float_shares, outstanding_shares
@@ -126,53 +166,4 @@ class StoreMarketData:
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing share float for {symbol} on {date}: {e}")
-
-    def store_dividend_adjusted_prices(self, ticker: str, data: Dict[str, Any]):
-        """Store dividend-adjusted price data."""
-        try:
-            self.cursor.execute("""
-                INSERT INTO dividend_adjusted_price_data (
-                    symbol, date, adjusted_close
-                ) VALUES (?, ?, ?)
-            """, (
-                ticker,
-                data.get("date"),
-                data.get("adjusted_close")
-            ))
-            self.conn.commit()
-        except Exception as e:
-            logging.error(f"Error storing dividend-adjusted prices for {ticker}: {e}")
-
-    def store_dividends(self, ticker: str, data: List[Dict[str, Any]]):
-        """Store dividend data."""
-        try:
-            for dividend in data:
-                self.cursor.execute("""
-                    INSERT INTO dividends (
-                        symbol, date, amount
-                    ) VALUES (?, ?, ?)
-                """, (
-                    ticker,
-                    dividend.get("date"),
-                    dividend.get("amount")
-                ))
-            self.conn.commit()
-        except Exception as e:
-            logging.error(f"Error storing dividends for {ticker}: {e}")
-
-    def store_splits(self, ticker: str, data: List[Dict[str, Any]]):
-        """Store stock split data."""
-        try:
-            for split in data:
-                self.cursor.execute("""
-                    INSERT INTO splits (
-                        symbol, date, ratio
-                    ) VALUES (?, ?, ?)
-                """, (
-                    ticker,
-                    split.get("date"),
-                    split.get("ratio")
-                ))
-            self.conn.commit()
-        except Exception as e:
-            logging.error(f"Error storing splits for {ticker}: {e}")
+            logging.debug(f"Data received: {data}")

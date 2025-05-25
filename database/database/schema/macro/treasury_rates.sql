@@ -1,16 +1,16 @@
 -- Treasury rates
-CREATE TABLE treasury_rates (
+CREATE TABLE IF NOT EXISTS treasury_rates (
     date TEXT PRIMARY KEY,
-    month1 REAL,
-    month2 REAL,
-    month3 REAL,
-    month6 REAL,
-    year1 REAL,
-    year2 REAL,
-    year3 REAL,
-    year5 REAL,
-    year7 REAL,
-    year10 REAL,
-    year20 REAL,
-    year30 REAL
+    month_1 REAL,
+    month_2 REAL,
+    month_3 REAL,
+    month_6 REAL,
+    year_1 REAL,
+    year_2 REAL,
+    year_3 REAL,
+    year_5 REAL,
+    year_7 REAL,
+    year_10 REAL,
+    year_20 REAL,
+    year_30 REAL
 );

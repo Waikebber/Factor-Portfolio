@@ -12,39 +12,39 @@ class StoreGrowth:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO balance_sheet_growth (
                     symbol, date, fiscal_year, period, reported_currency,
-                    growth_cash_and_cash_equivalents, growth_short_term_investments, growth_cash_and_short_term_investments,
-                    growth_net_receivables, growth_inventory, growth_other_current_assets, growth_total_current_assets,
-                    growth_property_plant_equipment_net, growth_goodwill, growth_intangible_assets, growth_goodwill_and_intangible_assets,
-                    growth_long_term_investments, growth_tax_assets, growth_other_non_current_assets, growth_total_non_current_assets,
-                    growth_other_assets, growth_total_assets, growth_account_payables, growth_short_term_debt, growth_tax_payables,
-                    growth_deferred_revenue, growth_other_current_liabilities, growth_total_current_liabilities, growth_long_term_debt,
-                    growth_deferred_revenue_non_current, growth_deferred_tax_liabilities_non_current, growth_other_non_current_liabilities,
-                    growth_total_non_current_liabilities, growth_other_liabilities, growth_total_liabilities, growth_preferred_stock,
-                    growth_common_stock, growth_retained_earnings, growth_accumulated_other_comprehensive_income_loss,
-                    growth_other_total_stockholders_equity, growth_total_stockholders_equity, growth_minority_interest, growth_total_equity,
-                    growth_total_liabilities_and_stockholders_equity, growth_total_investments, growth_total_debt, growth_net_debt,
-                    growth_accounts_receivables, growth_other_receivables, growth_prepaids, growth_total_payables, growth_other_payables,
-                    growth_accrued_expenses, growth_capital_lease_obligations_current, growth_additional_paid_in_capital,
-                    growth_treasury_stock
+                    cash_and_cash_equivalents, short_term_investments, cash_and_short_term_investments,
+                    net_receivables, inventory, other_current_assets, total_current_assets,
+                    property_plant_equipment_net, goodwill, intangible_assets, goodwill_and_intangible_assets,
+                    long_term_investments, tax_assets, other_non_current_assets, total_non_current_assets,
+                    other_assets, total_assets, account_payables, short_term_debt, tax_payables,
+                    deferred_revenue, other_current_liabilities, total_current_liabilities, long_term_debt,
+                    deferred_revenue_non_current, deferred_tax_liabilities_non_current, other_non_current_liabilities,
+                    total_non_current_liabilities, other_liabilities, total_liabilities, preferred_stock,
+                    common_stock, retained_earnings, accumulated_other_comprehensive_income_loss,
+                    other_total_stockholders_equity, total_stockholders_equity, minority_interest, total_equity,
+                    total_liabilities_and_stockholders_equity, total_investments, total_debt, net_debt,
+                    accounts_receivables, other_receivables, prepaids, total_payables, other_payables,
+                    accrued_expenses, capital_lease_obligations_current, additional_paid_in_capital,
+                    treasury_stock
                 ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 )
             """, (
                 data.get("symbol"), data.get("date"), data.get("fiscal_year"), data.get("period"), data.get("reported_currency"),
-                data.get("growth_cash_and_cash_equivalents"), data.get("growth_short_term_investments"), data.get("growth_cash_and_short_term_investments"),
-                data.get("growth_net_receivables"), data.get("growth_inventory"), data.get("growth_other_current_assets"), data.get("growth_total_current_assets"),
-                data.get("growth_property_plant_equipment_net"), data.get("growth_goodwill"), data.get("growth_intangible_assets"), data.get("growth_goodwill_and_intangible_assets"),
-                data.get("growth_long_term_investments"), data.get("growth_tax_assets"), data.get("growth_other_non_current_assets"), data.get("growth_total_non_current_assets"),
-                data.get("growth_other_assets"), data.get("growth_total_assets"), data.get("growth_account_payables"), data.get("growth_short_term_debt"), data.get("growth_tax_payables"),
-                data.get("growth_deferred_revenue"), data.get("growth_other_current_liabilities"), data.get("growth_total_current_liabilities"), data.get("growth_long_term_debt"),
-                data.get("growth_deferred_revenue_non_current"), data.get("growth_deferred_tax_liabilities_non_current"), data.get("growth_other_non_current_liabilities"),
-                data.get("growth_total_non_current_liabilities"), data.get("growth_other_liabilities"), data.get("growth_total_liabilities"), data.get("growth_preferred_stock"),
-                data.get("growth_common_stock"), data.get("growth_retained_earnings"), data.get("growth_accumulated_other_comprehensive_income_loss"),
-                data.get("growth_other_total_stockholders_equity"), data.get("growth_total_stockholders_equity"), data.get("growth_minority_interest"), data.get("growth_total_equity"),
-                data.get("growth_total_liabilities_and_stockholders_equity"), data.get("growth_total_investments"), data.get("growth_total_debt"), data.get("growth_net_debt"),
-                data.get("growth_accounts_receivables"), data.get("growth_other_receivables"), data.get("growth_prepaids"), data.get("growth_total_payables"), data.get("growth_other_payables"),
-                data.get("growth_accrued_expenses"), data.get("growth_capital_lease_obligations_current"), data.get("growth_additional_paid_in_capital"),
-                data.get("growth_treasury_stock")
+                data.get("cash_and_cash_equivalents"), data.get("short_term_investments"), data.get("cash_and_short_term_investments"),
+                data.get("net_receivables"), data.get("inventory"), data.get("other_current_assets"), data.get("total_current_assets"),
+                data.get("property_plant_equipment_net"), data.get("goodwill"), data.get("intangible_assets"), data.get("goodwill_and_intangible_assets"),
+                data.get("long_term_investments"), data.get("tax_assets"), data.get("other_non_current_assets"), data.get("total_non_current_assets"),
+                data.get("other_assets"), data.get("total_assets"), data.get("account_payables"), data.get("short_term_debt"), data.get("tax_payables"),
+                data.get("deferred_revenue"), data.get("other_current_liabilities"), data.get("total_current_liabilities"), data.get("long_term_debt"),
+                data.get("deferred_revenue_non_current"), data.get("deferred_tax_liabilities_non_current"), data.get("other_non_current_liabilities"),
+                data.get("total_non_current_liabilities"), data.get("other_liabilities"), data.get("total_liabilities"), data.get("preferred_stock"),
+                data.get("common_stock"), data.get("retained_earnings"), data.get("accumulated_other_comprehensive_income_loss"),
+                data.get("other_total_stockholders_equity"), data.get("total_stockholders_equity"), data.get("minority_interest"), data.get("total_equity"),
+                data.get("total_liabilities_and_stockholders_equity"), data.get("total_investments"), data.get("total_debt"), data.get("net_debt"),
+                data.get("accounts_receivables"), data.get("other_receivables"), data.get("prepaids"), data.get("total_payables"), data.get("other_payables"),
+                data.get("accrued_expenses"), data.get("capital_lease_obligations_current"), data.get("additional_paid_in_capital"),
+                data.get("treasury_stock")
             ))
             self.conn.commit()
         except Exception as e:
@@ -55,39 +55,39 @@ class StoreGrowth:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO cashflow_statement_growth (
                     symbol, date, fiscal_year, period, reported_currency,
-                    growth_net_income, growth_depreciation_and_amortization, growth_deferred_income_tax,
-                    growth_stock_based_compensation, growth_change_in_working_capital, growth_accounts_receivables,
-                    growth_inventory, growth_accounts_payables, growth_other_working_capital, growth_other_non_cash_items,
-                    growth_net_cash_provided_by_operating_activities, growth_investments_in_property_plant_and_equipment,
-                    growth_acquisitions_net, growth_purchases_of_investments, growth_sales_maturities_of_investments,
-                    growth_other_investing_activities, growth_net_cash_used_for_investing_activities, growth_debt_repayment,
-                    growth_common_stock_issued, growth_common_stock_repurchased, growth_dividends_paid,
-                    growth_other_financing_activities, growth_net_cash_used_provided_by_financing_activities,
-                    growth_effect_of_forex_changes_on_cash, growth_net_change_in_cash, growth_cash_at_end_of_period,
-                    growth_cash_at_beginning_of_period, growth_operating_cash_flow, growth_capital_expenditure,
-                    growth_free_cash_flow, growth_net_debt_issuance, growth_long_term_net_debt_issuance,
-                    growth_short_term_net_debt_issuance, growth_net_stock_issuance, growth_preferred_dividends_paid,
-                    growth_income_taxes_paid, growth_interest_paid
+                    net_income, depreciation_and_amortization, deferred_income_tax,
+                    stock_based_compensation, change_in_working_capital, accounts_receivables,
+                    inventory, accounts_payables, other_working_capital, other_non_cash_items,
+                    net_cash_provided_by_operating_activites, investments_in_property_plant_and_equipment,
+                    acquisitions_net, purchases_of_investments, sales_maturities_of_investments,
+                    other_investing_activites, net_cash_used_for_investing_activites, debt_repayment,
+                    common_stock_issued, common_stock_repurchased, dividends_paid,
+                    other_financing_activites, net_cash_used_provided_by_financing_activities,
+                    effect_of_forex_changes_on_cash, net_change_in_cash, cash_at_end_of_period,
+                    cash_at_beginning_of_period, operating_cash_flow, capital_expenditure,
+                    free_cash_flow, net_debt_issuance, long_term_net_debt_issuance,
+                    short_term_net_debt_issuance, net_stock_issuance, preferred_dividends_paid,
+                    income_taxes_paid, interest_paid
                 ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 )
             """, (
                 data.get("symbol"), data.get("date"), data.get("fiscal_year"), data.get("period"), data.get("reported_currency"),
-                data.get("growth_net_income"), data.get("growth_depreciation_and_amortization"), data.get("growth_deferred_income_tax"),
-                data.get("growth_stock_based_compensation"), data.get("growth_change_in_working_capital"), data.get("growth_accounts_receivables"),
-                data.get("growth_inventory"), data.get("growth_accounts_payables"), data.get("growth_other_working_capital"),
-                data.get("growth_other_non_cash_items"), data.get("growth_net_cash_provided_by_operating_activites"),
-                data.get("growth_investments_in_property_plant_and_equipment"), data.get("growth_acquisitions_net"),
-                data.get("growth_purchases_of_investments"), data.get("growth_sales_maturities_of_investments"),
-                data.get("growth_other_investing_activities"), data.get("growth_net_cash_used_for_investing_activities"),
-                data.get("growth_debt_repayment"), data.get("growth_common_stock_issued"), data.get("growth_common_stock_repurchased"),
-                data.get("growth_dividends_paid"), data.get("growth_other_financing_activities"),
-                data.get("growth_net_cash_used_provided_by_financing_activities"), data.get("growth_effect_of_forex_changes_on_cash"),
-                data.get("growth_net_change_in_cash"), data.get("growth_cash_at_end_of_period"), data.get("growth_cash_at_beginning_of_period"),
-                data.get("growth_operating_cash_flow"), data.get("growth_capital_expenditure"), data.get("growth_free_cash_flow"),
-                data.get("growth_net_debt_issuance"), data.get("growth_long_term_net_debt_issuance"),
-                data.get("growth_short_term_net_debt_issuance"), data.get("growth_net_stock_issuance"),
-                data.get("growth_preferred_dividends_paid"), data.get("growth_income_taxes_paid"), data.get("growth_interest_paid")
+                data.get("net_income"), data.get("depreciation_and_amortization"), data.get("deferred_income_tax"),
+                data.get("stock_based_compensation"), data.get("change_in_working_capital"), data.get("accounts_receivables"),
+                data.get("inventory"), data.get("accounts_payables"), data.get("other_working_capital"),
+                data.get("other_non_cash_items"), data.get("net_cash_provided_by_operating_activites"),
+                data.get("investments_in_property_plant_and_equipment"), data.get("acquisitions_net"),
+                data.get("purchases_of_investments"), data.get("sales_maturities_of_investments"),
+                data.get("other_investing_activites"), data.get("net_cash_used_for_investing_activites"),
+                data.get("debt_repayment"), data.get("common_stock_issued"), data.get("common_stock_repurchased"),
+                data.get("dividends_paid"), data.get("other_financing_activites"),
+                data.get("net_cash_used_provided_by_financing_activities"), data.get("effect_of_forex_changes_on_cash"),
+                data.get("net_change_in_cash"), data.get("cash_at_end_of_period"), data.get("cash_at_beginning_of_period"),
+                data.get("operating_cash_flow"), data.get("capital_expenditure"), data.get("free_cash_flow"),
+                data.get("net_debt_issuance"), data.get("long_term_net_debt_issuance"),
+                data.get("short_term_net_debt_issuance"), data.get("net_stock_issuance"),
+                data.get("preferred_dividends_paid"), data.get("income_taxes_paid"), data.get("interest_paid")
             ))
             self.conn.commit()
         except Exception as e:
@@ -140,33 +140,33 @@ class StoreGrowth:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO income_statement_growth (
                     symbol, date, fiscal_year, period, reported_currency,
-                    growth_revenue, growth_cost_of_revenue, growth_gross_profit, growth_gross_profit_ratio,
-                    growth_research_and_development_expenses, growth_general_and_administrative_expenses,
-                    growth_selling_and_marketing_expenses, growth_other_expenses, growth_operating_expenses,
-                    growth_cost_and_expenses, growth_interest_income, growth_interest_expense,
-                    growth_depreciation_and_amortization, growth_ebitda, growth_operating_income,
-                    growth_income_before_tax, growth_income_tax_expense, growth_net_income,
-                    growth_eps, growth_eps_diluted, growth_weighted_average_shs_out,
-                    growth_weighted_average_shs_out_dil, growth_ebit, growth_non_operating_income_excluding_interest,
-                    growth_net_interest_income, growth_total_other_income_expenses_net,
-                    growth_net_income_from_continuing_operations, growth_other_adjustments_to_net_income,
-                    growth_net_income_deductions
+                    revenue, cost_of_revenue, gross_profit, gross_profit_ratio,
+                    research_and_development_expenses, general_and_administrative_expenses,
+                    selling_and_marketing_expenses, other_expenses, operating_expenses,
+                    cost_and_expenses, interest_income, interest_expense,
+                    depreciation_and_amortization, ebitda, operating_income,
+                    income_before_tax, income_tax_expense, net_income,
+                    eps, eps_diluted, weighted_average_shs_out,
+                    weighted_average_shs_out_dil, ebit, non_operating_income_excluding_interest,
+                    net_interest_income, total_other_income_expenses_net,
+                    net_income_from_continuing_operations, other_adjustments_to_net_income,
+                    net_income_deductions
                 ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 )
             """, (
                 data.get("symbol"), data.get("date"), data.get("fiscal_year"), data.get("period"), data.get("reported_currency"),
-                data.get("growth_revenue"), data.get("growth_cost_of_revenue"), data.get("growth_gross_profit"), data.get("growth_gross_profit_ratio"),
-                data.get("growth_research_and_development_expenses"), data.get("growth_general_and_administrative_expenses"),
-                data.get("growth_selling_and_marketing_expenses"), data.get("growth_other_expenses"), data.get("growth_operating_expenses"),
-                data.get("growth_cost_and_expenses"), data.get("growth_interest_income"), data.get("growth_interest_expense"),
-                data.get("growth_depreciation_and_amortization"), data.get("growth_ebitda"), data.get("growth_operating_income"),
-                data.get("growth_income_before_tax"), data.get("growth_income_tax_expense"), data.get("growth_net_income"),
-                data.get("growth_eps"), data.get("growth_eps_diluted"), data.get("growth_weighted_average_shs_out"),
-                data.get("growth_weighted_average_shs_out_dil"), data.get("growth_ebit"), data.get("growth_non_operating_income_excluding_interest"),
-                data.get("growth_net_interest_income"), data.get("growth_total_other_income_expenses_net"),
-                data.get("growth_net_income_from_continuing_operations"), data.get("growth_other_adjustments_to_net_income"),
-                data.get("growth_net_income_deductions")
+                data.get("revenue"), data.get("cost_of_revenue"), data.get("gross_profit"), data.get("gross_profit_ratio"),
+                data.get("research_and_development_expenses"), data.get("general_and_administrative_expenses"),
+                data.get("selling_and_marketing_expenses"), data.get("other_expenses"), data.get("operating_expenses"),
+                data.get("cost_and_expenses"), data.get("interest_income"), data.get("interest_expense"),
+                data.get("depreciation_and_amortization"), data.get("ebitda"), data.get("operating_income"),
+                data.get("income_before_tax"), data.get("income_tax_expense"), data.get("net_income"),
+                data.get("eps"), data.get("eps_diluted"), data.get("weighted_average_shs_out"),
+                data.get("weighted_average_shs_out_dil"), data.get("ebit"), data.get("non_operating_income_excluding_interest"),
+                data.get("net_interest_income"), data.get("total_other_income_expenses_net"),
+                data.get("net_income_from_continuing_operations"), data.get("other_adjustments_to_net_income"),
+                data.get("net_income_deductions")
             ))
             self.conn.commit()
         except Exception as e:

@@ -1,5 +1,5 @@
 -- Analyst estimates
-CREATE TABLE analyst_estimates (
+CREATE TABLE IF NOT EXISTS analyst_estimates (
     symbol TEXT,
     date TEXT,
     revenue_low REAL,

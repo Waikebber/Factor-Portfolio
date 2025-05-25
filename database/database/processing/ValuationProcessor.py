@@ -11,7 +11,7 @@ class ValuationProcessor(BaseProcessor):
             ticker,
             start_date,
             end_date,
-            config_key='discounted_cash_flow',
+            config_key='general',
             fetch_fn=lambda: self.data_fetcher.get_discounted_cash_flow(ticker),
             translate_fn=ValuationTranslator.translate_discounted_cash_flow,
             label="discounted cash flow"
@@ -22,7 +22,7 @@ class ValuationProcessor(BaseProcessor):
             ticker,
             start_date,
             end_date,
-            config_key='levered_discounted_cash_flow',
+            config_key='general',
             fetch_fn=lambda: self.data_fetcher.get_levered_discounted_cash_flow(ticker),
             translate_fn=ValuationTranslator.translate_levered_discounted_cash_flow,
             label="levered discounted cash flow"

@@ -32,7 +32,7 @@ class MarketDataProcessor(BaseProcessor):
                 from_date=start_date,
                 to_date=end_date
             ),
-            translate_fn=MarketDataTranslator.translate_dividend_adjusted_prices,
+            translate_fn=MarketDataTranslator.translate_dividend_adjusted_price,
             label="dividend adjusted prices"
         )
 
@@ -85,8 +85,10 @@ class MarketDataProcessor(BaseProcessor):
             ticker,
             start_date,
             end_date,
-            config_key='share_float',
+            config_key='general',
             fetch_fn=lambda: self.data_fetcher.get_share_float(ticker),
             translate_fn=MarketDataTranslator.translate_share_float,
             label="share float"
         ) 
+    
+    

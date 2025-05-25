@@ -1,5 +1,5 @@
 -- Price target consensus
-CREATE TABLE price_target_consensus (
+CREATE TABLE IF NOT EXISTS price_target_consensus (
     symbol TEXT,
     target_high REAL,
     target_low REAL,

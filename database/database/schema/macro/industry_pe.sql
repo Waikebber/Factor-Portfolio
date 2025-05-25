@@ -1,5 +1,5 @@
 -- Industry PE
-CREATE TABLE industry_pe (
+CREATE TABLE IF NOT EXISTS industry_pe (
     date TEXT,
     industry TEXT,
     exchange TEXT,

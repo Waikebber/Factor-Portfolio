@@ -22,9 +22,9 @@ class ValuationTranslator:
                 'symbol': value.get('symbol'),
                 'date': value.get('date'),
                 'enterprise_value': safe_float(value.get('enterpriseValue')),
-                'market_cap': safe_float(value.get('marketCap')),
-                'total_debt': safe_float(value.get('totalDebt')),
-                'cash_and_equivalents': safe_float(value.get('cashAndEquivalents')),
+                'add_total_debt': safe_float(value.get('addTotalDebt')),
+                'minus_cash_and_cash_equivalents': safe_float(value.get('minusCashAndCashEquivalents')),
+                'number_of_shares': safe_int(value.get('numberOfShares')),
             }
             translated_values.append(translated)
         
@@ -49,11 +49,13 @@ class ValuationTranslator:
             translated = {
                 'symbol': earnings.get('symbol'),
                 'date': earnings.get('date'),
-                'net_income': safe_float(earnings.get('netIncome')),
-                'depreciation_and_amortization': safe_float(earnings.get('depreciationAndAmortization')),
-                'capital_expenditure': safe_float(earnings.get('capitalExpenditure')),
-                'working_capital_change': safe_float(earnings.get('workingCapitalChange')),
-                'owner_earnings': safe_float(earnings.get('ownerEarnings')),
+                'period': earnings.get('period'),
+                'fiscal_year': earnings.get('fiscalYear'),
+                'avg_ppe': safe_float(earnings.get('averagePPE')),
+                'growth_capex': safe_float(earnings.get('growthCapex')),
+                'maintenance_capex': safe_float(earnings.get('maintenanceCapex')),
+                'owners_earnings': safe_float(earnings.get('ownersEarnings')),
+                'owners_earnings_per_share': safe_float(earnings.get('ownersEarningsPerShare')),
             }
             translated_earnings.append(translated)
         
@@ -72,16 +74,13 @@ class ValuationTranslator:
         """
         if not data:
             return []
-        
+
         translated_dcf = []
         for dcf in data:
             translated = {
                 'symbol': dcf.get('symbol'),
                 'date': dcf.get('date'),
                 'dcf': safe_float(dcf.get('dcf')),
-                'stock_price': safe_float(dcf.get('stockPrice')),
-                'dcf_difference': safe_float(dcf.get('dcfDifference')),
-                'dcf_difference_percent': safe_float(dcf.get('dcfDifferencePercent')),
             }
             translated_dcf.append(translated)
         
@@ -106,10 +105,7 @@ class ValuationTranslator:
             translated = {
                 'symbol': dcf.get('symbol'),
                 'date': dcf.get('date'),
-                'dcf': safe_float(dcf.get('dcf')),
-                'stock_price': safe_float(dcf.get('stockPrice')),
-                'dcf_difference': safe_float(dcf.get('dcfDifference')),
-                'dcf_difference_percent': safe_float(dcf.get('dcfDifferencePercent')),
+                'dcf': safe_float(dcf.get('dcf'))
             }
             translated_dcf.append(translated)
         

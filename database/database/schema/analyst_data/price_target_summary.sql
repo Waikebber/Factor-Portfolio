@@ -1,5 +1,5 @@
 -- Price target summary
-CREATE TABLE price_target_summary (
+CREATE TABLE IF NOT EXISTS price_target_summary (
     symbol TEXT,
     last_month_count INTEGER,
     last_month_avg_price_target REAL,

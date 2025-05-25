@@ -1,5 +1,5 @@
 -- Price data
-CREATE TABLE price (
+CREATE TABLE IF NOT EXISTS price (
     symbol TEXT,
     date TEXT,
     open REAL,

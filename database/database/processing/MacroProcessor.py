@@ -8,11 +8,12 @@ class MacroProcessor(BaseProcessor):
 
     def process_economic_indicators(self, start_date=None, end_date=None):
         return self.process_generic(
-            None,  # No ticker needed for economic indicators
+            None,
             start_date,
             end_date,
             config_key='economic_indicators',
-            fetch_fn=lambda: self.data_fetcher.get_selected_economic_indicators(
+            fetch_fn=lambda: self.data_fetcher.get_economic_indicators(
+                name=None,
                 from_date=start_date,
                 to_date=end_date
             ),
@@ -20,9 +21,10 @@ class MacroProcessor(BaseProcessor):
             label="economic indicators"
         )
 
+
     def process_industry_pe(self, industry, start_date=None, end_date=None):
         return self.process_generic(
-            industry,
+            None,
             start_date,
             end_date,
             config_key='industry_pe',
@@ -38,7 +40,7 @@ class MacroProcessor(BaseProcessor):
 
     def process_sector_pe(self, sector, start_date=None, end_date=None):
         return self.process_generic(
-            sector,
+            None,
             start_date,
             end_date,
             config_key='sector_pe',
@@ -54,7 +56,7 @@ class MacroProcessor(BaseProcessor):
 
     def process_industry_performance(self, industry, start_date=None, end_date=None):
         return self.process_generic(
-            industry,
+            None,
             start_date,
             end_date,
             config_key='industry_performance',
@@ -70,7 +72,7 @@ class MacroProcessor(BaseProcessor):
 
     def process_sector_performance(self, sector, start_date=None, end_date=None):
         return self.process_generic(
-            sector,
+            None,
             start_date,
             end_date,
             config_key='sector_performance',
@@ -86,7 +88,7 @@ class MacroProcessor(BaseProcessor):
 
     def process_treasury_rates(self, start_date=None, end_date=None):
         return self.process_generic(
-            None,  # No ticker needed for treasury rates
+            None,
             start_date,
             end_date,
             config_key='treasury_rates',

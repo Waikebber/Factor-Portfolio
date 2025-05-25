@@ -1,5 +1,5 @@
 -- Sector Performance
-CREATE TABLE sector_performance (
+CREATE TABLE IF NOT EXISTS sector_performance (
     date TEXT,
     sector TEXT,
     exchange TEXT,

@@ -89,7 +89,7 @@ class StoreFinancialMetrics:
                 data.get("market_cap"), data.get("enterprise_value"), data.get("ev_to_sales"), data.get("ev_to_operating_cash_flow"),
                 data.get("ev_to_free_cash_flow"), data.get("ev_to_ebitda"), data.get("net_debt_to_ebitda"), data.get("current_ratio"),
                 data.get("income_quality"), data.get("graham_number"), data.get("graham_net_net"), data.get("tax_burden"),
-                data.get("interest_burden"), data.get("workinworking_capitalgCapital"), data.get("investedCapital"), data.get("return_on_assets"),
+                data.get("interest_burden"), data.get("working_capital"), data.get("invested_capital"), data.get("return_on_assets"),
                 data.get("operating_return_on_assets"), data.get("return_on_tangible_assets"), data.get("return_on_equity"),
                 data.get("return_on_invested_capital"), data.get("return_on_capital_employed"), data.get("earnings_yield"),
                 data.get("free_cash_flow_yield"), data.get("capex_to_operating_cash_flow"), data.get("capex_to_depreciation"),

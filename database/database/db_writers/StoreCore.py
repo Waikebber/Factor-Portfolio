@@ -32,16 +32,16 @@ class StoreCore:
         """Store a row in the employee_count table.
         
         Args:
-            data: Dictionary containing 'symbol', 'date', and 'employee_count' keys
+            data: Dictionary containing 'symbol', 'period_of_report', and 'employee_count' keys
         """
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO employee_count (
-                    symbol, date, employee_count
+                    symbol, period_of_report, employee_count
                 ) VALUES (?, ?, ?)
             """, (
                 data.get('symbol'),
-                data.get('date'),
+                data.get('period_of_report'),
                 data.get('employee_count')
             ))
             self.conn.commit()

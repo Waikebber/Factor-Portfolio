@@ -10,12 +10,12 @@ class CoreTranslator:
 
         record = {
             'symbol': data.get('symbol'),
-            'company_name': data.get('company_name'),
-            'exchange_short_name': data.get('exchange_short_name'),
+            'company_name': data.get('companyName'),
+            'exchange_short_name': data.get('exchangeShortName'),
             'industry': data.get('industry'),
             'sector': data.get('sector'),
             'country': data.get('country'),
-            'is_actively_trading': data.get('is_actively_trading'),
+            'is_actively_trading': data.get('isActivelyTrading'),
         }
         if record['symbol']:
             return [record]
@@ -35,18 +35,14 @@ class CoreTranslator:
             data = [data]
         elif not isinstance(data, list):
             return []
-            
+        
         translated_records = []
         for record in data:
-            if not isinstance(record, dict):
-                continue
-                
             translated = {
                 'symbol': record.get('symbol'),
-                'date': record.get('date'),
+                'period_of_report': record.get('periodOfReport'),
                 'employee_count': record.get('employeeCount')
             }
             if all(v is not None for v in translated.values()):
                 translated_records.append(translated)
-                
         return translated_records

@@ -1,5 +1,5 @@
 -- Ratings
-CREATE TABLE ratings (
+CREATE TABLE IF NOT EXISTS ratings (
     symbol TEXT,
     date TEXT,
     rating TEXT,

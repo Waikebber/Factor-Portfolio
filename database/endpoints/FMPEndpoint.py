@@ -7,9 +7,16 @@ from requests.exceptions import RequestException
 from dotenv import load_dotenv
 from datetime import datetime
 from .base import FinancialDataEndpoint
+from .FMPConstants import EXCHANGES, SECTORS, INDUSTRIES, ECONOMIC_INDICATORS
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging to write to a file
+log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
+os.makedirs(log_dir, exist_ok=True)
+logging.basicConfig(
+    filename=os.path.join(log_dir, 'fmp_endpoint.log'),
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
@@ -119,609 +126,324 @@ class FMPEndpoint(FinancialDataEndpoint):
             return data
         return {}
     
+    def _fetch_list_data(
+        self,
+        endpoint: str,
+        base_params: Dict[str, Any] = None,
+        variants: Optional[List[str]] = None,
+        variant_param: Optional[str] = None,
+        other_params: Optional[Dict[str, Any]] = None
+    ) -> List[dict]:
+        """
+        Generic handler for FMP list-returning endpoints with optional variant looping.
+
+        - `endpoint`: The API endpoint (e.g., "historical-sector-pe")
+        - `base_params`: Always-included parameters (e.g., {"from": ..., "to": ...})
+        - `variants`: List of sectors, industries, etc.
+        - `variant_param`: Key to loop on (e.g., "sector", "industry", "name")
+        - `other_params`: Static query params applied to all requests
+        """
+        results = []
+        base_params = base_params or {}
+        other_params = other_params or {}
+
+        if variants:
+            for v in variants:
+                params = {**base_params, **other_params, variant_param: v}
+                url = f"{BASE_URL}/{endpoint}"
+                data = self.get_json(url, params=params)
+                if isinstance(data, list):
+                    results.extend(data)
+        else:
+            params = {**base_params, **other_params}
+            url = f"{BASE_URL}/{endpoint}"
+            data = self.get_json(url, params=params)
+            if isinstance(data, list):
+                results.extend(data)
+
+        return results
+
+    def _fetch_symbol_data(
+        self,
+        endpoint: str,
+        symbol: str,
+        extra_params: Optional[Dict[str, Any]] = None
+    ) -> List[dict]:
+        params = {"symbol": symbol}
+        if extra_params:
+            params.update(extra_params)
+
+        url = f"{BASE_URL}/{endpoint}"
+        data = self.get_json(url, params=params)
+        return data if isinstance(data, list) else []
+
     #region Core
     def get_company_screener(self, symbol: str) -> dict:
-        """Fetch filtered exchange variant data for a symbol."""
+        """Fetch filtered exchange variant data for a symbol from screener list."""
         url = f"{BASE_URL}/company-screener"
         data = self.get_json(url)
-        if not data or not isinstance(data, list):
+        if not isinstance(data, list):
             return {}
+        
+        return next((entry for entry in data if entry.get("symbol", "").upper() == symbol.upper()), {})
 
-        for entry in data:
-            if entry.get("symbol", "").upper() == symbol.upper():
-                return {
-                    "symbol": entry.get("symbol"),
-                    "company_name": entry.get("companyName"),
-                    "exchange_short_name": entry.get("exchangeShortName"),
-                    "industry": entry.get("industry"),
-                    "sector": entry.get("sector"),
-                    "country": entry.get("country"),
-                    "is_actively_trading": entry.get("isActivelyTrading"),
-                }
 
     def get_historical_employee_count(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch historical employee count data for a company."""
-        url = f"{BASE_URL}/employee-count"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+        return self._fetch_symbol_data(
+            "employee-count",
+            symbol,
+            {"limit": limit} if limit is not None else None
+        )
 
-        data = self.get_json(url, params=params)
-        if not isinstance(data, list):
-            return []
-        
-        return [{
-            "symbol": entry.get("symbol"),
-            "date": entry.get("filingDate"),
-            "employeeCount": entry.get("employeeCount")
-        } for entry in data]
     #endregion
 
     #region Analysis
-    def get_analyst_estimates(self, symbol: str, period: str = "annual", page: int = 0, limit: int = 10) -> list[dict]:
-        """Fetch full analyst estimates data for a symbol."""
-        url = f"{BASE_URL}/analyst-estimates"
-        params = {
-            "symbol": symbol,
-            "period": period,
-            "page": page,
-            "limit": limit
-        }
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-        
-    def get_ratings_historical(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch historical ratings data for a symbol."""
-        url = f"{BASE_URL}/ratings-historical"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+    def get_analyst_estimates(
+        self, symbol: str, period: str = "annual", page: int = 0, limit: int = 10
+    ) -> list[dict]:
+        return self._fetch_symbol_data(
+            "analyst-estimates",
+            symbol,
+            {
+                "period": period,
+                "page": page,
+                "limit": limit
+            }
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+    def get_ratings_historical(self, symbol: str, limit: int = None) -> list[dict]:
+        return self._fetch_symbol_data(
+            "ratings-historical",
+            symbol,
+            {"limit": limit} if limit is not None else None
+        )
     #endregion
 
     #region Analyst Data
-    def get_price_target_summary(self, symbol: str) -> dict:
-        """Fetch summarized price target data for a symbol, excluding publishers."""
-        url = f"{BASE_URL}/price-target-summary"
-        params = {
-            "symbol": symbol
-        }
+    def get_price_target_summary(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("price-target-summary", symbol)
 
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
+    def get_price_target_consensus(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("price-target-consensus", symbol)
 
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "last_month_count": entry.get("lastMonthCount"),
-            "last_month_avg_price_target": entry.get("lastMonthAvgPriceTarget"),
-            "last_quarter_count": entry.get("lastQuarterCount"),
-            "last_quarter_avg_price_target": entry.get("lastQuarterAvgPriceTarget"),
-            "last_year_count": entry.get("lastYearCount"),
-            "last_year_avg_price_target": entry.get("lastYearAvgPriceTarget"),
-            "all_time_count": entry.get("allTimeCount"),
-            "all_time_avg_price_target": entry.get("allTimeAvgPriceTarget")
-        }
-
-    def get_price_target_consensus(self, symbol: str) -> dict:
-        """Fetch price target consensus data for a symbol."""
-        url = f"{BASE_URL}/price-target-consensus"
-        params = {
-            "symbol": symbol
-        }
-
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
-
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "target_high": entry.get("targetHigh"),
-            "target_low": entry.get("targetLow"),
-            "target_consensus": entry.get("targetConsensus"),
-            "target_median": entry.get("targetMedian")
-        }
-        
     def get_grades_historical(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch historical analyst grades for a symbol."""
-        url = f"{BASE_URL}/grades-historical"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+        return self._fetch_symbol_data(
+            "grades-historical",
+            symbol,
+            {"limit": limit} if limit is not None else None
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
-    def get_grades_consensus(self, symbol: str) -> dict:
-        """Fetch analyst consensus grades for a symbol."""
-        url = f"{BASE_URL}/grades-consensus"
-        params = {
-            "symbol": symbol
-        }
-
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
-
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "strong_buy": entry.get("strongBuy"),
-            "buy": entry.get("buy"),
-            "hold": entry.get("hold"),
-            "sell": entry.get("sell"),
-            "strong_sell": entry.get("strongSell"),
-            "consensus": entry.get("consensus")
-        }
+    def get_grades_consensus(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("grades-consensus", symbol)
     #endregion
 
     #region Financial Metrics
     def get_key_metrics(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch financial key metrics for a company."""
-        url = f"{BASE_URL}/key-metrics"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
+        return self._fetch_symbol_data(
+            "key-metrics",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-        
     def get_financial_ratios(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch financial ratios for a company."""
-        url = f"{BASE_URL}/ratios"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+        return self._fetch_symbol_data(
+            "ratios",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
 
     def get_earnings(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch earnings history for a symbol."""
-        url = f"{BASE_URL}/earnings"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+        return self._fetch_symbol_data(
+            "earnings",
+            symbol,
+            {"limit": limit} if limit is not None else None
+        )
     #endregion
 
     #region Growth
     def get_income_statement_growth(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch income statement growth metrics for a company."""
-        url = f"{BASE_URL}/income-statement-growth"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
+        return self._fetch_symbol_data(
+            "income-statement-growth",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-        
     def get_balance_sheet_growth(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch balance sheet growth metrics for a company."""
-        url = f"{BASE_URL}/balance-sheet-statement-growth"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
+        return self._fetch_symbol_data(
+            "balance-sheet-statement-growth",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-        
     def get_cashflow_statement_growth(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch cashflow statement growth metrics for a company."""
-        url = f"{BASE_URL}/cash-flow-statement-growth"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
+        return self._fetch_symbol_data(
+            "cash-flow-statement-growth",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
     def get_financial_statement_growth(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch overall financial statement growth metrics for a company."""
-        url = f"{BASE_URL}/financial-growth"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
-        if period is not None:
-            params["period"] = period
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+        return self._fetch_symbol_data(
+            "financial-growth",
+            symbol,
+            {k: v for k, v in {"limit": limit, "period": period}.items() if v is not None}
+        )
     #endregion
     
     #region Market Data
     def get_dividends(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch dividend history for a symbol, excluding recordDate and paymentDate."""
-        url = f"{BASE_URL}/dividends"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+        return self._fetch_symbol_data("dividends", symbol, {"limit": limit} if limit else None)
 
-        data = self.get_json(url, params=params)
-        if not isinstance(data, list):
-            return []
-
-        return [
-            {
-                "symbol": entry.get("symbol"),
-                "date": entry.get("date"),
-                "declaration_date": entry.get("declarationDate"),
-                "adj_dividend": entry.get("adjDividend"),
-                "dividend": entry.get("dividend"),
-                "yield": entry.get("yield"),
-                "frequency": entry.get("frequency")
-            }
-            for entry in data
-        ]
-    
     def get_dividend_adjusted_prices(
         self, symbol: str, from_date: str = None, to_date: str = None
     ) -> list[dict]:
-        """Fetch dividend-adjusted historical price and volume data for a symbol."""
-        url = f"{BASE_URL}/historical-price-eod/dividend-adjusted"
-        params = {
-            "symbol": symbol
-        }
+        extra = {}
         if from_date:
-            params["from"] = from_date
+            extra["from"] = from_date
         if to_date:
-            params["to"] = to_date
-
-        data = self.get_json(url, params=params)
-        if not isinstance(data, list):
-            return []
-            
-        # Map the API response fields to our expected format
-        return [{
-            "symbol": entry.get("symbol"),
-            "date": entry.get("date"),
-            "open": entry.get("open"),
-            "high": entry.get("high"),
-            "low": entry.get("low"),
-            "close": entry.get("close"),
-            "adjOpen": entry.get("adjOpen"),
-            "adjHigh": entry.get("adjHigh"),
-            "adjLow": entry.get("adjLow"),
-            "adjClose": entry.get("adjClose"),
-            "volume": entry.get("volume"),
-            "unadjustedVolume": entry.get("unadjustedVolume"),
-            "change": entry.get("change"),
-            "changePercent": entry.get("changePercent"),
-            "vwap": entry.get("vwap"),
-            "label": entry.get("label"),
-            "changeOverTime": entry.get("changeOverTime")
-        } for entry in data]
+            extra["to"] = to_date
+        return self._fetch_symbol_data("historical-price-eod/dividend-adjusted", symbol, extra if extra else None)
 
     def get_historical_market_cap(
         self, symbol: str, limit: int = None, from_date: str = None, to_date: str = None
     ) -> list[dict]:
-        """Fetch historical market capitalization data for a company."""
-        url = f"{BASE_URL}/historical-market-capitalization"
-        params = {
-            "symbol": symbol
-        }
+        extra = {}
         if limit is not None:
-            params["limit"] = limit
+            extra["limit"] = limit
         if from_date:
-            params["from"] = from_date
+            extra["from"] = from_date
         if to_date:
-            params["to"] = to_date
+            extra["to"] = to_date
+        return self._fetch_symbol_data("historical-market-capitalization", symbol, extra if extra else None)
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
-    def get_share_float(self, symbol: str) -> dict:
-        """Fetch company share float and liquidity data."""
-        url = f"{BASE_URL}/shares-float"
-        params = {
-            "symbol": symbol
-        }
+    def get_share_float(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("shares-float", symbol)
 
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "date": entry.get("date"),
-            "free_float": entry.get("freeFloat"),
-            "float_shares": entry.get("floatShares"),
-            "outstanding_shares": entry.get("outstandingShares")
-        }
-    
     def get_splits(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch stock split history for a symbol."""
-        url = f"{BASE_URL}/splits"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+        return self._fetch_symbol_data("splits", symbol, {"limit": limit} if limit else None)
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
     def get_price_volume_data(
         self, symbol: str, from_date: str = None, to_date: str = None
     ) -> list[dict]:
-        """Fetch full historical price and volume data for a symbol."""
-        url = f"{BASE_URL}/historical-price-eod/full"
-        params = {
-            "symbol": symbol
-        }
+        extra = {}
         if from_date:
-            params["from"] = from_date
+            extra["from"] = from_date
         if to_date:
-            params["to"] = to_date
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+            extra["to"] = to_date
+        return self._fetch_symbol_data("historical-price-eod/full", symbol, extra if extra else None)
     #endregion
     
     #region Macro
     def get_latest_mergers_acquisitions(self, page: int = 0, limit: int = 100) -> list[dict]:
-        """Fetch the latest mergers and acquisitions data."""
-        url = f"{BASE_URL}/mergers-acquisitions-latest"
-        params = {
-            "page": page,
-            "limit": limit
-        }
+        return self._fetch_list_data(
+            endpoint="mergers-acquisitions-latest",
+            base_params={"page": page, "limit": limit}
+        )
 
-        data = self.get_json(url, params=params)
-        if not isinstance(data, list):
-            return []
-        
-        return [{
-            "symbol": entry.get("symbol"),
-            "targetedSymbol": entry.get("targetedSymbol"),
-            "transactionDate": entry.get("transactionDate"),
-            "transactionDate": entry.get("transactionDate"),
-        } for entry in data]
-    
     def get_historical_sector_performance(
-        self, sector: str, from_date: str = None, to_date: str = None, exchange: str = None
+        self,
+        sector: str = None,
+        from_date: str = None,
+        to_date: str = None,
+        exchange: str = None
     ) -> list[dict]:
-        """Fetch historical sector performance data."""
-        url = f"{BASE_URL}/historical-sector-performance"
-        params = {
-            "sector": sector
-        }
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
-        if exchange:
-            params["exchange"] = exchange
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+        return self._fetch_list_data(
+            endpoint="historical-sector-performance",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {},
+            variants=[sector] if sector else SECTORS,
+            variant_param="sector",
+            other_params={"exchange": exchange} if exchange else {}
+        )
 
     def get_historical_industry_performance(
-        self, industry: str, from_date: str = None, to_date: str = None, exchange: str = None
+        self,
+        industry: str = None,
+        from_date: str = None,
+        to_date: str = None,
+        exchange: str = None
     ) -> list[dict]:
-        """Fetch historical performance data for a given industry."""
-        url = f"{BASE_URL}/historical-industry-performance"
-        params = {
-            "industry": industry
-        }
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
-        if exchange:
-            params["exchange"] = exchange
+        return self._fetch_list_data(
+            endpoint="historical-industry-performance",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {},
+            variants=[industry] if industry else INDUSTRIES,
+            variant_param="industry",
+            other_params={"exchange": exchange} if exchange else {}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
     def get_historical_sector_pe(
-        self, sector: str, from_date: str = None, to_date: str = None, exchange: str = None
-    ) -> list[dict]:
-        """Fetch historical P/E ratios for a given sector."""
-        url = f"{BASE_URL}/historical-sector-pe"
-        params = {
-            "sector": sector
-        }
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
-        if exchange:
-            params["exchange"] = exchange
+        self, sector: str = None, from_date: str = None, to_date: str = None, exchange: str = None
+    ) -> List[dict]:
+        return self._fetch_list_data(
+            endpoint="historical-sector-pe",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {},
+            variants=[sector] if sector else SECTORS,
+            variant_param="sector",
+            other_params={"exchange": exchange} if exchange else {}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
     def get_historical_industry_pe(
-        self, industry: str, from_date: str = None, to_date: str = None, exchange: str = None
+        self,
+        industry: str = None,
+        from_date: str = None,
+        to_date: str = None,
+        exchange: str = None
     ) -> list[dict]:
-        """Fetch historical P/E ratios for a given industry."""
-        url = f"{BASE_URL}/historical-industry-pe"
-        params = {
-            "industry": industry
-        }
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
-        if exchange:
-            params["exchange"] = exchange
+        return self._fetch_list_data(
+            endpoint="historical-industry-pe",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {},
+            variants=[industry] if industry else INDUSTRIES,
+            variant_param="industry",
+            other_params={"exchange": exchange} if exchange else {}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-
-    def get_selected_economic_indicators(self, from_date: str = None, to_date: str = None) -> dict:
-        """Fetch selected economic indicators."""
-        indicator_names = [
-            "GDP",
-            "realGDP",
-            "federalFunds",
-            "CPI",
-            "inflationRate",
-            "retailSales",
-            "consumerSentiment",
-            "durableGoods",
-            "unemploymentRate",
-            "totalNonfarmPayroll",
-            "industrialProductionTotalIndex",
-            "totalVehicleSales",
-            "3MonthOr90DayRatesAndYieldsCertificatesOfDeposit",
-            "30YearFixedRateMortgageAverage"
-        ]
-
-        results = {}
-        for name in indicator_names:
-            key = name.lower().replace(" ", "_")
-            results[key] = self.get_economic_indicator(name, from_date, to_date)
-
-        return results
-    
-    def get_economic_indicator(self, name: str = "GDP", from_date: str = None, to_date: str = None) -> list[dict]:
-        """Fetch economic indicator data by name.
-        
-        Args:
-            name: The name of the economic indicator. Defaults to "GDP" if not provided.
-            from_date: Optional start date for the data range
-            to_date: Optional end date for the data range
-            
-        Returns:
-            List of dictionaries containing the economic indicator data
-        """
-        url = f"{BASE_URL}/economic-indicators?name={name}"
-        params = {}
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+    def get_economic_indicators(
+        self, name: Union[str, List[str]] = None, from_date: str = None, to_date: str = None
+    ) -> List[dict]:
+        name_list = [name] if isinstance(name, str) else (name or ECONOMIC_INDICATORS)
+        return self._fetch_list_data(
+            endpoint="economic-indicators",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {},
+            variants=name_list,
+            variant_param="name"
+        )
     
     def get_treasury_rates(self, from_date: str = None, to_date: str = None) -> list[dict]:
-        """Fetch real-time and historical Treasury rates across all maturities."""
-        url = f"{BASE_URL}/treasury-rates"
-        params = {}
-        if from_date:
-            params["from"] = from_date
-        if to_date:
-            params["to"] = to_date
+        return self._fetch_list_data(
+            endpoint="treasury-rates",
+            base_params={"from": from_date, "to": to_date} if from_date or to_date else {}
+        )
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
     #endregion
 
     #region Valuation
-    def get_discounted_cash_flow(self, symbol: str) -> dict:
-        """Fetch standard Discounted Cash Flow (DCF) valuation for a symbol."""
-        url = f"{BASE_URL}/discounted-cash-flow"
-        params = {
-            "symbol": symbol
-        }
+    def get_discounted_cash_flow(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("discounted-cash-flow", symbol)
 
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "date": entry.get("date"),
-            "dcf": entry.get("dcf"),
-            "stock_price": entry.get("Stock Price")
-        }
+    def get_levered_discounted_cash_flow(self, symbol: str) -> list[dict]:
+        return self._fetch_symbol_data("levered-discounted-cash-flow", symbol)
 
-    def get_levered_discounted_cash_flow(self, symbol: str) -> dict:
-        """Fetch Levered Discounted Cash Flow (DCF) valuation for a symbol."""
-        url = f"{BASE_URL}/levered-discounted-cash-flow"
-        params = {
-            "symbol": symbol
-        }
-
-        data = self.get_json(url, params=params)
-        if not data or not isinstance(data, list):
-            return {}
-        entry = data[0]
-        return {
-            "symbol": entry.get("symbol"),
-            "date": entry.get("date"),
-            "dcf": entry.get("dcf"),
-            "stock_price": entry.get("Stock Price")
-        }
-        
     def get_owner_earnings(self, symbol: str, limit: int = None) -> list[dict]:
-        """Fetch owner earnings data for a company."""
-        url = f"{BASE_URL}/owner-earnings"
-        params = {
-            "symbol": symbol
-        }
-        if limit is not None:
-            params["limit"] = limit
+        return self._fetch_symbol_data("owner-earnings", symbol, {"limit": limit} if limit else None)
 
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
-    
     def get_enterprise_values(
         self, symbol: str, limit: int = None, period: str = None
     ) -> list[dict]:
-        """Fetch enterprise value data for a company."""
-        url = f"{BASE_URL}/enterprise-values"
-        params = {
-            "symbol": symbol
-        }
+        extra = {}
         if limit is not None:
-            params["limit"] = limit
+            extra["limit"] = limit
         if period is not None:
-            params["period"] = period
-
-        data = self.get_json(url, params=params)
-        return data if isinstance(data, list) else []
+            extra["period"] = period
+        return self._fetch_symbol_data("enterprise-values", symbol, extra if extra else None)
     #endregion

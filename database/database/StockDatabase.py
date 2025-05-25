@@ -45,26 +45,23 @@ class StockDatabase:
             ]
             
             # Process each directory in order
-            for dir_name in schema_dirs:
-                dir_path = os.path.join(schema_dir, dir_name)
-                if os.path.exists(dir_path):
-                    print(f"Processing schema directory: {dir_name}")
-                    # Get all SQL files in the directory
-                    sql_files = [f for f in os.listdir(dir_path) if f.endswith('.sql')]
-                    # Sort files to ensure consistent order
-                    sql_files.sort()
-                    
-                    # Execute each SQL file
-                    for sql_file in sql_files:
-                        file_path = os.path.join(dir_path, sql_file)
-                        print(f"  Executing: {sql_file}")
-                        with open(file_path, 'r') as f:
-                            cursor.executescript(f.read())
+            with tqdm(total=len(schema_dirs), desc="Initializing database schema", unit="dir") as pbar:
+                for dir_name in schema_dirs:
+                    dir_path = os.path.join(schema_dir, dir_name)
+                    if os.path.exists(dir_path):
+                        sql_files = [f for f in os.listdir(dir_path) if f.endswith('.sql')]
+                        sql_files.sort()
+                        
+                        # Execute each SQL file
+                        for sql_file in sql_files:
+                            file_path = os.path.join(dir_path, sql_file)
+                            with open(file_path, 'r') as f:
+                                cursor.executescript(f.read())
+                    pbar.update(1)
             
             conn.commit()
             conn.close()
             print("Database initialization complete.")
-            return True
         except Exception as e:
             print(f"Failed to initialize database: {str(e)}")
             return False
@@ -90,4 +87,3 @@ class StockDatabase:
 if __name__ == "__main__":
     db = StockDatabase()
     db.initialize()
-    db.update_stock_data()

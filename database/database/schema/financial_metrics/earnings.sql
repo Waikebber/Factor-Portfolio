@@ -1,5 +1,5 @@
 -- Earnings
-CREATE TABLE earnings (
+CREATE TABLE IF NOT EXISTS earnings (
     symbol TEXT,
     date TEXT,
     eps_actual REAL,

@@ -1,5 +1,5 @@
 -- Stock identity and metadata
-CREATE TABLE stocks (
+CREATE TABLE IF NOT EXISTS stocks (
     symbol TEXT PRIMARY KEY,
     company_name TEXT,
     exchange_short_name TEXT,

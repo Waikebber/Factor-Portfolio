@@ -1,5 +1,5 @@
 -- Mergers and acquisitions
-CREATE TABLE mergers_acquisitions (
+CREATE TABLE IF NOT EXISTS mergers_acquisitions (
     symbol TEXT,             -- Acquiring company
     targeted_symbol TEXT,    -- Acquired company
     transaction_date TEXT,

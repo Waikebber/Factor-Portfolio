@@ -1,5 +1,5 @@
 -- Grades
-CREATE TABLE grades (
+CREATE TABLE IF NOT EXISTS grades (
     symbol TEXT,
     date TEXT,
     buy INTEGER,

@@ -1,5 +1,5 @@
 -- Shares float
-CREATE TABLE share_float (
+CREATE TABLE IF NOT EXISTS share_float (
     symbol TEXT,
     date TEXT,
     free_float REAL,

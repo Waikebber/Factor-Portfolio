@@ -1,4 +1,4 @@
-CREATE TABLE grades_consensus (
+CREATE TABLE IF NOT EXISTS grades_consensus (
     symbol TEXT,
     strong_buy INTEGER,
     buy INTEGER,

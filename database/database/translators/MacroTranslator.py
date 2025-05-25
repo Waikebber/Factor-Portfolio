@@ -15,22 +15,12 @@ class MacroTranslator:
         """
         if not data:
             return []
-        
         translated_indicators = []
         for indicator in data:
             translated = {
-                'symbol': indicator.get('symbol'),
+                'name': indicator.get('name'),
                 'date': indicator.get('date'),
-                'gdp': safe_float(indicator.get('gdp')),
-                'gdp_growth': safe_float(indicator.get('gdpGrowth')),
-                'cpi': safe_float(indicator.get('cpi')),
-                'inflation': safe_float(indicator.get('inflation')),
-                'inflation_rate': safe_float(indicator.get('inflationRate')),
-                'retail_sales': safe_float(indicator.get('retailSales')),
-                'consumer_sentiment': safe_float(indicator.get('consumerSentiment')),
-                'durable_goods_orders': safe_float(indicator.get('durableGoodsOrders')),
-                'unemployment_rate': safe_float(indicator.get('unemploymentRate')),
-                'non_farm_payroll': safe_float(indicator.get('nonFarmPayroll')),
+                'value': indicator.get('value')
             }
             translated_indicators.append(translated)
         
@@ -153,7 +143,6 @@ class MacroTranslator:
         """
         if not data:
             return []
-        
         translated_rates = []
         for rate in data:
             translated = {
@@ -173,7 +162,6 @@ class MacroTranslator:
                 'year_30': safe_float(rate.get('year30')),
             }
             translated_rates.append(translated)
-        
         return translated_rates 
     
     @staticmethod
@@ -191,6 +179,7 @@ class MacroTranslator:
             return []
         
         translated_ma = []
+
         for ma in data:
             translated = {
                 'symbol': ma.get('symbol'),  # Acquiring company

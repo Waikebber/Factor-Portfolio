@@ -16,7 +16,7 @@ class AnalystDataTranslator:
         """
         if not data:
             return []
-        
+
         translated_grades = []
         for grade in data:
             translated = {
@@ -55,11 +55,11 @@ class AnalystDataTranslator:
             translated = {
                 'symbol': consensus.get('symbol'),
                 'date': current_date,
-                'strong_buy': safe_int(consensus.get('strong_buy')),
+                'strong_buy': safe_int(consensus.get('strongBuy')),
                 'buy': safe_int(consensus.get('buy')),
                 'hold': safe_int(consensus.get('hold')),
                 'sell': safe_int(consensus.get('sell')),
-                'strong_sell': safe_int(consensus.get('strong_sell')),
+                'strong_sell': safe_int(consensus.get('strongSell')),
                 'consensus': consensus.get('consensus')
             }
             translated_consensus.append(translated)
@@ -90,10 +90,10 @@ class AnalystDataTranslator:
             translated = {
                 'symbol': consensus.get('symbol'),
                 'date': current_date,
-                'target_high': safe_float(consensus.get('target_high')),
-                'target_low': safe_float(consensus.get('target_low')),
-                'target_consensus': safe_float(consensus.get('target_consensus')),
-                'target_median': safe_float(consensus.get('target_median'))
+                'target_high': safe_float(consensus.get('targetHigh')),
+                'target_low': safe_float(consensus.get('targetLow')),
+                'target_consensus': safe_float(consensus.get('targetConsensus')),
+                'target_median': safe_float(consensus.get('targetMedian'))
             }
             translated_consensus.append(translated)
         
@@ -121,14 +121,14 @@ class AnalystDataTranslator:
         for summary in data:
             translated = {
                 'symbol': summary.get('symbol'),
-                'last_month_count': safe_int(summary.get('last_month_count')),
-                'last_month_avg_price_target': safe_float(summary.get('last_month_avg_price_target')),
-                'last_quarter_count': safe_int(summary.get('last_quarter_count')),
-                'last_quarter_avg_price_target': safe_float(summary.get('last_quarter_avg_price_target')),
-                'last_year_count': safe_int(summary.get('last_year_count')),
-                'last_year_avg_price_target': safe_float(summary.get('last_year_avg_price_target')),
-                'all_time_count': safe_int(summary.get('all_time_count')),
-                'all_time_avg_price_target': safe_float(summary.get('all_time_avg_price_target'))
+                'last_month_count': safe_int(summary.get('lastMonthCount')),
+                'last_month_avg_price_target': safe_float(summary.get('lastMonthAvgPriceTarget')),
+                'last_quarter_count': safe_int(summary.get('lastQuarterCount')),
+                'last_quarter_avg_price_target': safe_float(summary.get('lastQuarterAvgPriceTarget')),
+                'last_year_count': safe_int(summary.get('lastYearCount')),
+                'last_year_avg_price_target': safe_float(summary.get('lastYearAvgPriceTarget')),
+                'all_time_count': safe_int(summary.get('allTimeCount')),
+                'all_time_avg_price_target': safe_float(summary.get('allTimeAvgPriceTarget'))
             }
             translated_summary.append(translated)
         

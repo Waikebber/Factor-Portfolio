@@ -1,5 +1,5 @@
 -- Industry Performance
-CREATE TABLE industry_performance (
+CREATE TABLE IF NOT EXISTS industry_performance (
     date TEXT,
     industry TEXT,
     exchange TEXT,

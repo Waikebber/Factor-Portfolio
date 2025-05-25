@@ -48,14 +48,14 @@ class MarketDataTranslator:
             translated = {
                 'symbol': cap.get('symbol'),
                 'date': cap.get('date'),
-                'market_cap': float(cap.get('marketCap')) if cap.get('marketCap') is not None else None,
+                'market_cap': safe_float(cap.get('marketCap'))
             }
             translated_cap.append(translated)
         
         return translated_cap
 
     @staticmethod
-    def translate_dividend_adjusted_price_data(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def translate_dividend_adjusted_price(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Translates dividend adjusted price data from the API response format to the database schema.
         
@@ -73,24 +73,13 @@ class MarketDataTranslator:
             translated = {
                 'symbol': price.get('symbol'),
                 'date': price.get('date'),
-                'open': safe_float(price.get('open')),
-                'high': safe_float(price.get('high')),
-                'low': safe_float(price.get('low')),
-                'close': safe_float(price.get('close')),
                 'adj_open': safe_float(price.get('adjOpen')),
                 'adj_high': safe_float(price.get('adjHigh')),
                 'adj_low': safe_float(price.get('adjLow')),
                 'adj_close': safe_float(price.get('adjClose')),
-                'volume': safe_int(price.get('volume')),
-                'unadjusted_volume': safe_int(price.get('unadjustedVolume')),
-                'change': safe_float(price.get('change')),
-                'change_percent': safe_float(price.get('changePercent')),
-                'vwap': safe_float(price.get('vwap')),
-                'label': price.get('label'),
-                'change_over_time': safe_float(price.get('changeOverTime')),
+                'volume': safe_int(price.get('volume'))
             }
             translated_prices.append(translated)
-        
         return translated_prices
 
     @staticmethod
@@ -151,7 +140,6 @@ class MarketDataTranslator:
                 'frequency': dividend.get('frequency'),
             }
             translated_dividends.append(translated)
-        
         return translated_dividends
 
     @staticmethod
@@ -173,8 +161,8 @@ class MarketDataTranslator:
             translated = {
                 'symbol': split.get('symbol'),
                 'date': split.get('date'),
-                'numerator': int(split.get('numerator')) if split.get('numerator') is not None else None,
-                'denominator': int(split.get('denominator')) if split.get('denominator') is not None else None,
+                'numerator': safe_int(split.get('numerator')),
+                'denominator': safe_int(split.get('denominator')),
             }
             translated_splits.append(translated)
         

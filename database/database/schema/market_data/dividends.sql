@@ -1,5 +1,5 @@
 -- Dividends
-CREATE TABLE dividends (
+CREATE TABLE IF NOT EXISTS dividends (
     symbol TEXT,
     date TEXT,
     declaration_date TEXT,

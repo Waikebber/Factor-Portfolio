@@ -1,12 +1,10 @@
 -- Enterprise values
-CREATE TABLE enterprise_values (
+CREATE TABLE IF NOT EXISTS enterprise_values (
     symbol TEXT,
     date TEXT,
-    stock_price REAL,
     number_of_shares INTEGER,
-    market_capitalization REAL,
-    minus_cash_and_cash_equivalents REAL,
     add_total_debt REAL,
+    minus_cash_and_cash_equivalents REAL,
     enterprise_value REAL,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)

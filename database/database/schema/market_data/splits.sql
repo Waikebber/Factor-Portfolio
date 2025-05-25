@@ -1,5 +1,5 @@
 -- Splits
-CREATE TABLE splits (
+CREATE TABLE IF NOT EXISTS splits (
     symbol TEXT,
     date TEXT,
     numerator INTEGER,
