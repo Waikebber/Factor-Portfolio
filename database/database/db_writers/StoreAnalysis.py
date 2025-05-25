@@ -13,8 +13,8 @@ class StoreAnalysis:
                 INSERT OR REPLACE INTO ratings (
                     symbol, date, rating, overall_score, discounted_cash_flow_score,
                     return_on_equity_score, return_on_assets_score, debt_to_equity_score,
-                    price_to_earnings_score, price_to_book_score, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    price_to_earnings_score, price_to_book_score
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
@@ -39,8 +39,8 @@ class StoreAnalysis:
                     ebitda_low, ebitda_high, ebitda_avg, ebit_low, ebit_high, ebit_avg,
                     net_income_low, net_income_high, net_income_avg,
                     sga_expense_low, sga_expense_high, sga_expense_avg,
-                    eps_low, eps_high, eps_avg, num_analysts_revenue, num_analysts_eps, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    eps_low, eps_high, eps_avg, num_analysts_revenue, num_analysts_eps
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),

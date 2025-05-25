@@ -12,8 +12,8 @@ class StoreValuation:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO enterprise_values (
                     symbol, date, stock_price, number_of_shares, market_capitalization,
-                    minus_cash_and_cash_equivalents, add_total_debt, enterprise_value, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    minus_cash_and_cash_equivalents, add_total_debt, enterprise_value
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
@@ -34,8 +34,8 @@ class StoreValuation:
                 INSERT OR REPLACE INTO owner_earnings (
                     symbol, date, fiscal_year, period, reported_currency,
                     average_ppe, maintenance_capex, owners_earnings, growth_capex,
-                    owners_earnings_per_share, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    owners_earnings_per_share
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
@@ -56,8 +56,8 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO levered_discounted_cash_flow (
-                    symbol, date, dcf, stock_price, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    symbol, date, dcf, stock_price
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
@@ -72,8 +72,8 @@ class StoreValuation:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO discounted_cash_flow (
-                    symbol, date, dcf, stock_price, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    symbol, date, dcf, stock_price
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),

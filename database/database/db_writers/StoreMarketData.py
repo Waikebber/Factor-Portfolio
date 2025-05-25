@@ -12,8 +12,8 @@ class StoreMarketData:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO price (
                     symbol, date, open, high, low, close, volume,
-                    change, change_percent, vwap, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    change, change_percent, vwap
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -34,8 +34,8 @@ class StoreMarketData:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO dividends (
-                    symbol, date, declaration_date, adj_dividend, dividend, yield, frequency, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    symbol, date, declaration_date, adj_dividend, dividend, yield, frequency
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -53,8 +53,8 @@ class StoreMarketData:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO splits (
-                    symbol, date, numerator, denominator, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    symbol, date, numerator, denominator
+                ) VALUES (?, ?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -70,8 +70,8 @@ class StoreMarketData:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO dividend_adjusted_price_data (
                     symbol, date, open, high, low, close, adj_open, adj_high, adj_low, adj_close,
-                    volume, unadjusted_volume, change, change_percent, vwap, label, change_over_time, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    volume, unadjusted_volume, change, change_percent, vwap, label, change_over_time
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -99,8 +99,8 @@ class StoreMarketData:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO market_cap (
-                    symbol, date, market_cap, last_updated
-                ) VALUES (?, ?, ?, datetime('now'))
+                    symbol, date, market_cap
+                ) VALUES (?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -114,8 +114,8 @@ class StoreMarketData:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO share_float (
-                    symbol, date, free_float, float_shares, outstanding_shares, last_updated
-                ) VALUES (?, ?, ?, ?, ?, datetime('now'))
+                    symbol, date, free_float, float_shares, outstanding_shares
+                ) VALUES (?, ?, ?, ?, ?)
             """, (
                 symbol,
                 date,
@@ -132,8 +132,8 @@ class StoreMarketData:
         try:
             self.cursor.execute("""
                 INSERT INTO dividend_adjusted_price_data (
-                    symbol, date, adjusted_close, last_updated
-                ) VALUES (?, ?, ?, datetime('now'))
+                    symbol, date, adjusted_close
+                ) VALUES (?, ?, ?)
             """, (
                 ticker,
                 data.get("date"),
@@ -149,8 +149,8 @@ class StoreMarketData:
             for dividend in data:
                 self.cursor.execute("""
                     INSERT INTO dividends (
-                        symbol, date, amount, last_updated
-                    ) VALUES (?, ?, ?, datetime('now'))
+                        symbol, date, amount
+                    ) VALUES (?, ?, ?)
                 """, (
                     ticker,
                     dividend.get("date"),
@@ -166,8 +166,8 @@ class StoreMarketData:
             for split in data:
                 self.cursor.execute("""
                     INSERT INTO splits (
-                        symbol, date, ratio, last_updated
-                    ) VALUES (?, ?, ?, datetime('now'))
+                        symbol, date, ratio
+                    ) VALUES (?, ?, ?)
                 """, (
                     ticker,
                     split.get("date"),

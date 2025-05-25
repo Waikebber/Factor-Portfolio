@@ -49,7 +49,6 @@ CREATE TABLE cashflow_statement_growth (
     growth_income_taxes_paid REAL,
     growth_interest_paid REAL,
 
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

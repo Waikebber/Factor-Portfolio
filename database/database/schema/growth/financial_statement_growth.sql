@@ -48,7 +48,6 @@ CREATE TABLE financial_statement_growth (
     five_y_bottom_line_net_income_growth_per_share REAL,
     three_y_bottom_line_net_income_growth_per_share REAL,
 
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

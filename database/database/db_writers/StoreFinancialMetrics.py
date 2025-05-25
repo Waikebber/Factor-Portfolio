@@ -33,33 +33,33 @@ class StoreFinancialMetrics:
                     shareholders_equity_per_share, operating_cash_flow_per_share,
                     capex_per_share, free_cash_flow_per_share, net_income_per_ebt,
                     ebt_per_ebit, price_to_fair_value, effective_tax_rate,
-                    enterprise_value_multiple, last_updated
+                    enterprise_value_multiple
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now')
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 )
             """, (
-                data.get("symbol"), data.get("date"), data.get("fiscalYear"), data.get("period"), data.get("reportedCurrency"),
-                data.get("grossProfitMargin"), data.get("ebitMargin"), data.get("ebitdaMargin"), data.get("operatingProfitMargin"),
-                data.get("pretaxProfitMargin"), data.get("continuousOperationsProfitMargin"), data.get("netProfitMargin"),
-                data.get("bottomLineProfitMargin"), data.get("receivablesTurnover"), data.get("payablesTurnover"),
-                data.get("inventoryTurnover"), data.get("fixedAssetTurnover"), data.get("assetTurnover"), data.get("currentRatio"),
-                data.get("quickRatio"), data.get("solvencyRatio"), data.get("cashRatio"), data.get("priceToEarningsRatio"),
-                data.get("priceToEarningsGrowthRatio"), data.get("forwardPriceToEarningsGrowthRatio"),
-                data.get("priceToBookRatio"), data.get("priceToSalesRatio"), data.get("priceToFreeCashFlowRatio"),
-                data.get("priceToOperatingCashFlowRatio"), data.get("debtToAssetsRatio"), data.get("debtToEquityRatio"),
-                data.get("debtToCapitalRatio"), data.get("longTermDebtToCapitalRatio"), data.get("financialLeverageRatio"),
-                data.get("debtToMarketCap"), data.get("workingCapitalTurnoverRatio"), data.get("operatingCashFlowRatio"),
-                data.get("operatingCashFlowSalesRatio"), data.get("freeCashFlowOperatingCashFlowRatio"),
-                data.get("debtServiceCoverageRatio"), data.get("interestCoverageRatio"),
-                data.get("shortTermOperatingCashFlowCoverageRatio"), data.get("operatingCashFlowCoverageRatio"),
-                data.get("capitalExpenditureCoverageRatio"), data.get("dividendPaidAndCapexCoverageRatio"),
-                data.get("dividendPayoutRatio"), data.get("dividendYield"), data.get("dividendYieldPercentage"),
-                data.get("revenuePerShare"), data.get("netIncomePerShare"), data.get("interestDebtPerShare"),
-                data.get("cashPerShare"), data.get("bookValuePerShare"), data.get("tangibleBookValuePerShare"),
-                data.get("shareholdersEquityPerShare"), data.get("operatingCashFlowPerShare"),
-                data.get("capexPerShare"), data.get("freeCashFlowPerShare"), data.get("netIncomePerEBT"),
-                data.get("ebtPerEbit"), data.get("priceToFairValue"), data.get("effectiveTaxRate"),
-                data.get("enterpriseValueMultiple")
+                data.get("symbol"), data.get("date"), data.get("fiscal_year"), data.get("period"), data.get("reported_currency"),
+                data.get("gross_profit_margin"), data.get("ebit_margin"), data.get("ebitda_margin"), data.get("operating_profit_margin"),
+                data.get("pretax_profit_margin"), data.get("continuous_operations_profit_margin"), data.get("net_profit_margin"),
+                data.get("bottom_line_profit_margin"), data.get("receivables_turnover"), data.get("payables_turnover"),
+                data.get("inventory_turnover"), data.get("fixed_asset_turnover"), data.get("asset_turnover"), data.get("current_ratio"),
+                data.get("quick_ratio"), data.get("solvency_ratio"), data.get("cash_ratio"), data.get("price_to_earnings_ratio"),
+                data.get("price_to_earnings_growth_ratio"), data.get("forward_price_to_earnings_growth_ratio"),
+                data.get("price_to_book_ratio"), data.get("price_to_sales_ratio"), data.get("price_to_free_cash_flow_ratio"),
+                data.get("price_to_operating_cash_flow_ratio"), data.get("debt_to_assets_ratio"), data.get("debt_to_equity_ratio"),
+                data.get("debt_to_capital_ratio"), data.get("long_term_debt_to_capital_ratio"), data.get("financial_leverage_ratio"),
+                data.get("debt_to_market_cap"), data.get("working_capital_turnover_ratio"), data.get("operating_cash_flow_ratio"),
+                data.get("operating_cash_flow_sales_ratio"), data.get("free_cash_flow_operating_cash_flow_ratio"),
+                data.get("debt_service_coverage_ratio"), data.get("interest_coverage_ratio"),
+                data.get("short_term_operating_cash_flow_coverage_ratio"), data.get("operating_cash_flow_coverage_ratio"),
+                data.get("capital_expenditure_coverage_ratio"), data.get("dividend_paid_and_capex_coverage_ratio"),
+                data.get("dividend_payout_ratio"), data.get("dividend_yield"), data.get("dividend_yield_percentage"),
+                data.get("revenue_per_share"), data.get("net_income_per_share"), data.get("interest_debt_per_share"),
+                data.get("cash_per_share"), data.get("book_value_per_share"), data.get("tangible_book_value_per_share"),
+                data.get("shareholders_equity_per_share"), data.get("operating_cash_flow_per_share"),
+                data.get("capex_per_share"), data.get("free_cash_flow_per_share"), data.get("net_income_per_ebt"),
+                data.get("ebt_per_ebit"), data.get("price_to_fair_value"), data.get("effective_tax_rate"),
+                data.get("enterprise_value_multiple")
             ))
             self.conn.commit()
         except Exception as e:
@@ -80,44 +80,44 @@ class StoreFinancialMetrics:
                     capex_to_revenue, sga_to_revenue, rnd_to_revenue, sbc_to_revenue,
                     intangibles_to_total_assets, average_receivables, average_payables,
                     average_inventory, dso, dpo, dio, operating_cycle, cash_conversion_cycle,
-                    fcf_to_equity, fcf_to_firm, tangible_asset_value, net_current_asset_value,
-                    last_updated
+                    fcf_to_equity, fcf_to_firm, tangible_asset_value, net_current_asset_value
                 ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now')
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                 )
             """, (
-                data.get("symbol"), data.get("date"), data.get("fiscalYear"), data.get("period"), data.get("reportedCurrency"),
-                data.get("marketCap"), data.get("enterpriseValue"), data.get("evToSales"), data.get("evToOperatingCashFlow"),
-                data.get("evToFreeCashFlow"), data.get("evToEBITDA"), data.get("netDebtToEBITDA"), data.get("currentRatio"),
-                data.get("incomeQuality"), data.get("grahamNumber"), data.get("grahamNetNet"), data.get("taxBurden"),
-                data.get("interestBurden"), data.get("workingCapital"), data.get("investedCapital"), data.get("returnOnAssets"),
-                data.get("operatingReturnOnAssets"), data.get("returnOnTangibleAssets"), data.get("returnOnEquity"),
-                data.get("returnOnInvestedCapital"), data.get("returnOnCapitalEmployed"), data.get("earningsYield"),
-                data.get("freeCashFlowYield"), data.get("capexToOperatingCashFlow"), data.get("capexToDepreciation"),
-                data.get("capexToRevenue"), data.get("salesGeneralAndAdministrativeToRevenue"), data.get("researchAndDevelopementToRevenue"),
-                data.get("stockBasedCompensationToRevenue"), data.get("intangiblesToTotalAssets"), data.get("averageReceivables"),
-                data.get("averagePayables"), data.get("averageInventory"), data.get("daysOfSalesOutstanding"), data.get("daysOfPayablesOutstanding"),
-                data.get("daysOfInventoryOutstanding"), data.get("operatingCycle"), data.get("cashConversionCycle"),
-                data.get("freeCashFlowToEquity"), data.get("freeCashFlowToFirm"), data.get("tangibleAssetValue"),
-                data.get("netCurrentAssetValue")
+                data.get("symbol"), data.get("date"), data.get("fiscal_year"), data.get("period"), data.get("reported_currency"),
+                data.get("market_cap"), data.get("enterprise_value"), data.get("ev_to_sales"), data.get("ev_to_operating_cash_flow"),
+                data.get("ev_to_free_cash_flow"), data.get("ev_to_ebitda"), data.get("net_debt_to_ebitda"), data.get("current_ratio"),
+                data.get("income_quality"), data.get("graham_number"), data.get("graham_net_net"), data.get("tax_burden"),
+                data.get("interest_burden"), data.get("workinworking_capitalgCapital"), data.get("investedCapital"), data.get("return_on_assets"),
+                data.get("operating_return_on_assets"), data.get("return_on_tangible_assets"), data.get("return_on_equity"),
+                data.get("return_on_invested_capital"), data.get("return_on_capital_employed"), data.get("earnings_yield"),
+                data.get("free_cash_flow_yield"), data.get("capex_to_operating_cash_flow"), data.get("capex_to_depreciation"),
+                data.get("capex_to_revenue"), data.get("sga_to_revenue"), data.get("rnd_to_revenue"),
+                data.get("sbc_to_revenue"), data.get("intangibles_to_total_assets"), data.get("average_receivables"),
+                data.get("average_payables"), data.get("average_inventory"), data.get("dso"), data.get("dpo"),
+                data.get("dio"), data.get("operating_cycle"), data.get("cash_conversion_cycle"),
+                data.get("fcf_to_equity"), data.get("fcf_to_firm"), data.get("tangible_asset_value"),
+                data.get("net_current_asset_value")
             ))
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing key metrics for {data.get('symbol')} on {data.get('date')}: {e}")
-
-    def store_stock_metrics(self, data: Dict[str, Any]):
+        
+    def store_earnings(self, data: Dict[str, Any]):
         try:
             self.cursor.execute("""
-                INSERT OR REPLACE INTO stock_metrics (
-                    symbol, beta, price_range, changes, dcf_diff, last_updated
-                ) VALUES (?, ?, ?, ?, ?, datetime('now'))
+                INSERT OR REPLACE INTO earnings (
+                    symbol, date, eps_actual, eps_estimated, revenue_actual, revenue_estimated
+                ) VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
-                data.get("beta"),
-                data.get("price_range"),
-                data.get("changes"),
-                data.get("dcf_diff")
+                data.get("date"),
+                data.get("eps_actual"),
+                data.get("eps_estimated"),
+                data.get("revenue_actual"),
+                data.get("revenue_estimated")
             ))
             self.conn.commit()
         except Exception as e:
-            logging.error(f"Error storing stock metrics for {data.get('symbol')}: {e}")
+            logging.error(f"Error storing earnings for {data.get('symbol')} on {data.get('date')}: {e}")

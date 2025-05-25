@@ -30,15 +30,15 @@ class StoreAnalysisData:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO grades (
-                    symbol, date, analyst_ratings_buy, analyst_ratings_hold, analyst_ratings_sell, analyst_ratings_strong_sell, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+                    symbol, date, buy, hold, sell, strong_sell
+                ) VALUES (?, ?, ?, ?, ?, ?)
             """, (
                 data.get("symbol"),
                 data.get("date"),
-                data.get("analyst_ratings_buy"),
-                data.get("analyst_ratings_hold"),
-                data.get("analyst_ratings_sell"),
-                data.get("analyst_ratings_strong_sell")
+                data.get("buy"),
+                data.get("hold"),
+                data.get("sell"),
+                data.get("strong_sell")
             ))
             self.conn.commit()
         except Exception as e:

@@ -1,4 +1,5 @@
 from typing import Dict, Any, List
+from .utils import safe_float, safe_int
 
 class AnalysisTranslator:
     @staticmethod
@@ -20,26 +21,26 @@ class AnalysisTranslator:
             translated = {
                 'symbol': estimate.get('symbol'),
                 'date': estimate.get('date'),
-                'revenue_low': float(estimate.get('revenueLow')) if estimate.get('revenueLow') is not None else None,
-                'revenue_high': float(estimate.get('revenueHigh')) if estimate.get('revenueHigh') is not None else None,
-                'revenue_avg': float(estimate.get('revenueAvg')) if estimate.get('revenueAvg') is not None else None,
-                'ebitda_low': float(estimate.get('ebitdaLow')) if estimate.get('ebitdaLow') is not None else None,
-                'ebitda_high': float(estimate.get('ebitdaHigh')) if estimate.get('ebitdaHigh') is not None else None,
-                'ebitda_avg': float(estimate.get('ebitdaAvg')) if estimate.get('ebitdaAvg') is not None else None,
-                'ebit_low': float(estimate.get('ebitLow')) if estimate.get('ebitLow') is not None else None,
-                'ebit_high': float(estimate.get('ebitHigh')) if estimate.get('ebitHigh') is not None else None,
-                'ebit_avg': float(estimate.get('ebitAvg')) if estimate.get('ebitAvg') is not None else None,
-                'net_income_low': float(estimate.get('netIncomeLow')) if estimate.get('netIncomeLow') is not None else None,
-                'net_income_high': float(estimate.get('netIncomeHigh')) if estimate.get('netIncomeHigh') is not None else None,
-                'net_income_avg': float(estimate.get('netIncomeAvg')) if estimate.get('netIncomeAvg') is not None else None,
-                'sga_expense_low': float(estimate.get('sgaExpenseLow')) if estimate.get('sgaExpenseLow') is not None else None,
-                'sga_expense_high': float(estimate.get('sgaExpenseHigh')) if estimate.get('sgaExpenseHigh') is not None else None,
-                'sga_expense_avg': float(estimate.get('sgaExpenseAvg')) if estimate.get('sgaExpenseAvg') is not None else None,
-                'eps_low': float(estimate.get('epsLow')) if estimate.get('epsLow') is not None else None,
-                'eps_high': float(estimate.get('epsHigh')) if estimate.get('epsHigh') is not None else None,
-                'eps_avg': float(estimate.get('epsAvg')) if estimate.get('epsAvg') is not None else None,
-                'num_analysts_revenue': int(estimate.get('numAnalystsRevenue')) if estimate.get('numAnalystsRevenue') is not None else None,
-                'num_analysts_eps': int(estimate.get('numAnalystsEps')) if estimate.get('numAnalystsEps') is not None else None
+                'revenue_low': safe_float(estimate.get('revenueLow')),
+                'revenue_high': safe_float(estimate.get('revenueHigh')),
+                'revenue_avg': safe_float(estimate.get('revenueAvg')),
+                'ebitda_low': safe_float(estimate.get('ebitdaLow')),
+                'ebitda_high': safe_float(estimate.get('ebitdaHigh')),
+                'ebitda_avg': safe_float(estimate.get('ebitdaAvg')),
+                'ebit_low': safe_float(estimate.get('ebitLow')),
+                'ebit_high': safe_float(estimate.get('ebitHigh')),
+                'ebit_avg': safe_float(estimate.get('ebitAvg')),
+                'net_income_low': safe_float(estimate.get('netIncomeLow')),
+                'net_income_high': safe_float(estimate.get('netIncomeHigh')),
+                'net_income_avg': safe_float(estimate.get('netIncomeAvg')),
+                'sga_expense_low': safe_float(estimate.get('sgaExpenseLow')),
+                'sga_expense_high': safe_float(estimate.get('sgaExpenseHigh')),
+                'sga_expense_avg': safe_float(estimate.get('sgaExpenseAvg')),
+                'eps_low': safe_float(estimate.get('epsLow')),
+                'eps_high': safe_float(estimate.get('epsHigh')),
+                'eps_avg': safe_float(estimate.get('epsAvg')),
+                'num_analysts_revenue': safe_int(estimate.get('numAnalystsRevenue')),
+                'num_analysts_eps': safe_int(estimate.get('numAnalystsEps'))
             }
             translated_estimates.append(translated)
         
@@ -65,13 +66,13 @@ class AnalysisTranslator:
                 'symbol': rating.get('symbol'),
                 'date': rating.get('date'),
                 'rating': rating.get('rating'),
-                'overall_score': float(rating.get('overallScore')) if rating.get('overallScore') is not None else None,
-                'discounted_cash_flow_score': float(rating.get('discountedCashFlowScore')) if rating.get('discountedCashFlowScore') is not None else None,
-                'return_on_equity_score': float(rating.get('returnOnEquityScore')) if rating.get('returnOnEquityScore') is not None else None,
-                'return_on_assets_score': float(rating.get('returnOnAssetsScore')) if rating.get('returnOnAssetsScore') is not None else None,
-                'debt_to_equity_score': float(rating.get('debtToEquityScore')) if rating.get('debtToEquityScore') is not None else None,
-                'price_to_earnings_score': float(rating.get('priceToEarningsScore')) if rating.get('priceToEarningsScore') is not None else None,
-                'price_to_book_score': float(rating.get('priceToBookScore')) if rating.get('priceToBookScore') is not None else None
+                'overall_score': safe_float(rating.get('overallScore')),
+                'discounted_cash_flow_score': safe_float(rating.get('discountedCashFlowScore')),
+                'return_on_equity_score': safe_float(rating.get('returnOnEquityScore')),
+                'return_on_assets_score': safe_float(rating.get('returnOnAssetsScore')),
+                'debt_to_equity_score': safe_float(rating.get('debtToEquityScore')),
+                'price_to_earnings_score': safe_float(rating.get('priceToEarningsScore')),
+                'price_to_book_score': safe_float(rating.get('priceToBookScore'))
             }
             translated_ratings.append(translated)
         

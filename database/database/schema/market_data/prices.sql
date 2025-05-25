@@ -10,7 +10,6 @@ CREATE TABLE price (
     change REAL,
     change_percent REAL,
     vwap REAL,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

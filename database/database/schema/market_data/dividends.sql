@@ -7,7 +7,6 @@ CREATE TABLE dividends (
     dividend REAL,
     yield REAL,
     frequency TEXT,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

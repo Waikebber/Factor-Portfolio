@@ -8,7 +8,6 @@ CREATE TABLE enterprise_values (
     minus_cash_and_cash_equivalents REAL,
     add_total_debt REAL,
     enterprise_value REAL,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

@@ -13,8 +13,8 @@ class StoreCore:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO stocks (
                     symbol, company_name, exchange_short_name, industry, sector,
-                    country, full_time_employees, is_actively_trading, is_adr, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    country, is_actively_trading, last_updated
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
             """, (
                 data.get("symbol"),
                 data.get("company_name"),
@@ -22,25 +22,27 @@ class StoreCore:
                 data.get("industry"),
                 data.get("sector"),
                 data.get("country"),
-                data.get("full_time_employees"),
                 data.get("is_actively_trading"),
-                data.get("is_adr")
             ))
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing stock: {e}")
 
-    def store_employee_count(self, symbol: str, date: str, employee_count: int):
-        """Store a row in the employee_count table."""
+    def store_employee_count(self, data: Dict[str, Any]):
+        """Store a row in the employee_count table.
+        
+        Args:
+            data: Dictionary containing 'symbol', 'date', and 'employee_count' keys
+        """
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO employee_count (
-                    symbol, date, employee_count, last_updated
-                ) VALUES (?, ?, ?, datetime('now'))
+                    symbol, date, employee_count
+                ) VALUES (?, ?, ?)
             """, (
-                symbol,
-                date,
-                employee_count
+                data.get('symbol'),
+                data.get('date'),
+                data.get('employee_count')
             ))
             self.conn.commit()
         except Exception as e:

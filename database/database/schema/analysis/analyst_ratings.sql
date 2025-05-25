@@ -10,7 +10,6 @@ CREATE TABLE ratings (
     debt_to_equity_score INTEGER,
     price_to_earnings_score INTEGER,
     price_to_book_score INTEGER,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

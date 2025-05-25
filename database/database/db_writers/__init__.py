@@ -4,7 +4,6 @@ from .StoreValuation import StoreValuation
 from .StoreFinancialMetrics import StoreFinancialMetrics
 from .StoreGrowth import StoreGrowth
 from .StoreAnalysis import StoreAnalysis
-from .StoreCorporateActions import StoreCorporateActions
 from .StoreAnalysisData import StoreAnalysisData
 from .StoreMacro import StoreMacro
 
@@ -15,7 +14,6 @@ __all__ = [
     'StoreFinancialMetrics',
     'StoreGrowth',
     'StoreAnalysis',
-    'StoreCorporateActions',
     'StoreAnalysisData',
     'StoreMacro'
 ]

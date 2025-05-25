@@ -17,7 +17,6 @@ CREATE TABLE dividend_adjusted_price_data (
     vwap REAL,
     label TEXT,
     change_over_time REAL,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

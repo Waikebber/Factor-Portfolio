@@ -47,7 +47,6 @@ CREATE TABLE key_metrics (
     fcf_to_firm REAL,
     tangible_asset_value REAL,
     net_current_asset_value REAL,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

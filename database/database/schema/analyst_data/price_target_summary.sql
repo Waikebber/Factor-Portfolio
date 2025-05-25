@@ -1,6 +1,6 @@
 -- Price target summary
 CREATE TABLE price_target_summary (
-    symbol TEXT PRIMARY KEY,
+    symbol TEXT,
     last_month_count INTEGER,
     last_month_avg_price_target REAL,
     last_quarter_count INTEGER,
@@ -10,5 +10,6 @@ CREATE TABLE price_target_summary (
     all_time_count INTEGER,
     all_time_avg_price_target REAL,
     last_updated TEXT,
+    PRIMARY KEY (symbol, last_updated),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

@@ -6,8 +6,6 @@ CREATE TABLE stocks (
     industry TEXT,
     sector TEXT,
     country TEXT,
-    full_time_employees INTEGER,
     is_actively_trading BOOLEAN,
-    is_adr BOOLEAN,
     last_updated TEXT
 );

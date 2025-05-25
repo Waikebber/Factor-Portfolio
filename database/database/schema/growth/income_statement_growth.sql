@@ -36,7 +36,6 @@ CREATE TABLE income_statement_growth (
     growth_other_adjustments_to_net_income REAL,
     growth_net_income_deductions REAL,
 
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

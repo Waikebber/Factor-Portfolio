@@ -11,8 +11,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO economic_indicators (
-                    name, date, value, last_updated
-                ) VALUES (?, ?, ?, datetime('now'))
+                    name, date, value
+                ) VALUES (?, ?, ?)
             """, (
                 data.get("name"),
                 data.get("date"),
@@ -26,8 +26,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO industry_pe (
-                    date, industry, exchange, pe, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    date, industry, exchange, pe
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("date"),
                 data.get("industry"),
@@ -42,8 +42,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO sector_pe (
-                    date, sector, exchange, pe, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    date, sector, exchange, pe
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("date"),
                 data.get("sector"),
@@ -58,8 +58,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO industry_performance (
-                    date, industry, exchange, average_change, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    date, industry, exchange, average_change
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("date"),
                 data.get("industry"),
@@ -74,8 +74,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO sector_performance (
-                    date, sector, exchange, average_change, last_updated
-                ) VALUES (?, ?, ?, ?, datetime('now'))
+                    date, sector, exchange, average_change
+                ) VALUES (?, ?, ?, ?)
             """, (
                 data.get("date"),
                 data.get("sector"),
@@ -90,8 +90,8 @@ class StoreMacro:
         try:
             self.cursor.execute("""
                 INSERT OR REPLACE INTO treasury_rates (
-                    date, month1, month2, month3, month6, year1, year2, year3, year5, year7, year10, year20, year30, last_updated
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                    date, month1, month2, month3, month6, year1, year2, year3, year5, year7, year10, year20, year30
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 data.get("date"),
                 data.get("month1"),
@@ -110,3 +110,18 @@ class StoreMacro:
             self.conn.commit()
         except Exception as e:
             logging.error(f"Error storing treasury rates for {data.get('date')}: {e}")
+        
+    def store_merger_acquisition(self, data: Dict[str, Any]):
+        try:
+            self.cursor.execute("""
+                INSERT OR REPLACE INTO mergers_acquisitions (
+                    symbol, targeted_symbol, transaction_date
+                ) VALUES (?, ?, ?)
+            """, (
+                data.get("symbol"),
+                data.get("targeted_symbol"),
+                data.get("transaction_date")
+            ))
+            self.conn.commit()
+        except Exception as e:
+            logging.error(f"Error storing merger/acquisition for {data.get('symbol')}: {e}")

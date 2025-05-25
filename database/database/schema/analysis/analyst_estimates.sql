@@ -22,7 +22,6 @@ CREATE TABLE analyst_estimates (
     eps_avg REAL,
     num_analysts_revenue INTEGER,
     num_analysts_eps INTEGER,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

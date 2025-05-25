@@ -6,7 +6,6 @@ CREATE TABLE earnings (
     eps_estimated REAL,
     revenue_actual REAL,
     revenue_estimated REAL,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

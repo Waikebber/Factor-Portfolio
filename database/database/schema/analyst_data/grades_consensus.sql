@@ -1,5 +1,5 @@
 CREATE TABLE grades_consensus (
-    symbol TEXT PRIMARY KEY,
+    symbol TEXT,
     strong_buy INTEGER,
     buy INTEGER,
     hold INTEGER,
@@ -7,5 +7,6 @@ CREATE TABLE grades_consensus (
     strong_sell INTEGER,
     consensus TEXT,
     last_updated TEXT,
+    PRIMARY KEY (symbol, last_updated),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

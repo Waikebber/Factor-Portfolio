@@ -12,6 +12,5 @@ CREATE TABLE treasury_rates (
     year7 REAL,
     year10 REAL,
     year20 REAL,
-    year30 REAL,
-    last_updated TEXT
+    year30 REAL
 );

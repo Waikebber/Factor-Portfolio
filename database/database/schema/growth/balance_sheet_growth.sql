@@ -42,7 +42,7 @@ CREATE TABLE balance_sheet_growth (
     growth_common_stock REAL,
     growth_retained_earnings REAL,
     growth_accumulated_other_comprehensive_income_loss REAL,
-    growth_othertotal_stockholders_equity REAL,
+    growth_other_total_stockholders_equity REAL,
     growth_total_stockholders_equity REAL,
     growth_minority_interest REAL,
     growth_total_equity REAL,
@@ -61,7 +61,6 @@ CREATE TABLE balance_sheet_growth (
     growth_additional_paid_in_capital REAL,
     growth_treasury_stock REAL,
 
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

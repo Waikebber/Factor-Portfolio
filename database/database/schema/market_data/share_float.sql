@@ -5,7 +5,6 @@ CREATE TABLE share_float (
     free_float REAL,
     float_shares INTEGER,
     outstanding_shares INTEGER,
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

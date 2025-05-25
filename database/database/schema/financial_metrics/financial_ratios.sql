@@ -82,7 +82,6 @@ CREATE TABLE financial_ratios (
     effective_tax_rate REAL,
     enterprise_value_multiple REAL,
 
-    last_updated TEXT,
     PRIMARY KEY (symbol, date),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );
