@@ -6,6 +6,7 @@ from typing import List, Optional
 from tqdm import tqdm
 import sys
 from pathlib import Path
+import pandas as pd
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from FinancialCalculations import FinancialCalculations
@@ -74,6 +75,34 @@ class StockDatabase:
         except Exception as e:
             print(f"Error deleting database: {e}")
             return False
+    
+    def export_to_excel(self, file_path: str):
+        """Export all tables in the database to an Excel file, one sheet per table.
+        
+        Args:
+            file_path (str): Path to save the Excel file (e.g., "output.xlsx")
+        """
+        try:
+            conn = self._get_connection()
+            cursor = conn.cursor()
+            
+            # Get all user-defined tables
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")
+            tables = [row[0] for row in cursor.fetchall()]
+            
+            if not tables:
+                print("No tables found in the database.")
+                return
+            
+            with pd.ExcelWriter(file_path, engine='xlsxwriter') as writer:
+                for table in tables:
+                    df = pd.read_sql_query(f"SELECT * FROM {table}", conn)
+                    df.to_excel(writer, sheet_name=table[:31], index=False)  # Sheet name max length is 31
+            
+            print(f"Export complete: {file_path}")
+            conn.close()
+        except Exception as e:
+            print(f"Failed to export database to Excel: {e}")
 
     def update_stock_data(self, tickers: Optional[List[str]] = None, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None) -> bool:
         pass

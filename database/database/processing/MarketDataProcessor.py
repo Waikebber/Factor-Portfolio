@@ -65,6 +65,8 @@ class MarketDataProcessor(BaseProcessor):
         )
 
     def process_market_cap(self, ticker, start_date=None, end_date=None):
+        if start_date is None:
+            start_date = self.config.market_cap.get("from")
         return self.process_generic(
             ticker,
             start_date,

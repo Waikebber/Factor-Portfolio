@@ -56,7 +56,8 @@ class DataFetchConfig:
     })
 
     market_cap: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 10
+        'limit': 5000,
+        'from': (datetime.today() - timedelta(days=5 * 365)).strftime('%Y-%m-%d')
     })
 
     ################### Valuation ###################

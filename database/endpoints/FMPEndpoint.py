@@ -328,6 +328,7 @@ class FMPEndpoint(FinancialDataEndpoint):
             extra["to"] = to_date
         return self._fetch_symbol_data("historical-market-capitalization", symbol, extra if extra else None)
 
+
     def get_share_float(self, symbol: str) -> list[dict]:
         return self._fetch_symbol_data("shares-float", symbol)
 
