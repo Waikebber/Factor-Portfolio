@@ -34,6 +34,7 @@ pip install pandas numpy yfinance tqdm XlsxWriter
 ```python
 from database.StockDatabase import StockDatabase
 from database.services import DatabasePopulator
+from database.services import DatabaseGetter
 
 # Create/initialize database instance
 db = StockDatabase()
@@ -45,6 +46,11 @@ populator.set_up_database()
 
 # Populate the table with data from the S&P500
 populator.populate_sp500()
+
+# Get Data
+getter = DatabaseGetter(db)
+getter.core.get_stocks("APPL")
+getter.core.get_stocks(["AAPL", "MSFT", "GOOG", "AMZN", "TSLA"])
 ```
 
 ## Database Structure
