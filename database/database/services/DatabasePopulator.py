@@ -139,13 +139,6 @@ class DatabasePopulator:
                     for error in errors:
                         logging.error(f"  - {error}")
 
-            # Warnings
-            warning_records = logging.getLogger().handlers[0].records
-            if warning_records:
-                logging.error("\nWarnings:")
-                for record in warning_records:
-                    if record.levelname == 'WARNING':
-                        logging.error(f"  - {record.getMessage()}")
         finally:
             # Restore original logging level
             logging.getLogger().setLevel(original_level)
