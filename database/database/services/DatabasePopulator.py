@@ -111,32 +111,44 @@ class DatabasePopulator:
             (self.populate_market_data, "Market Data"),
             (self.populate_valuation, "Valuation Data")
         ]
+
+        # Store original logging level
+        original_level = logging.getLogger().getEffectiveLevel()
         logging.getLogger().setLevel(logging.ERROR)
         
         ticker_errors = {}
         try:
-            with tqdm(total=len(tickers), desc="Overall Progress", position=0) as ticker_pbar:
+            description = "Overall Progress"
+            with tqdm(total=len(tickers), desc=description, position=0, leave=False, colour="green") as ticker_pbar:
                 for ticker in tickers:
                     ticker_errors[ticker] = []
-                    with tqdm(total=len(operations), desc=f"Processing {ticker}", position=1, leave=False) as op_pbar:
-                        for operation, label in operations:
-                            try:
-                                operation(ticker, None)
-                                logging.info(f"Successfully processed {label} for {ticker}")
-                            except Exception as e:
-                                error_msg = f"Failed to process {label}: {str(e)}"
-                                ticker_errors[ticker].append(error_msg)
-                            finally:
-                                op_pbar.update(1)
-                                op_pbar.set_description(f"Processing {ticker} - {label}")
+                    for operation, label in operations:
+                        try:
+                            ticker_pbar.set_description(f"{description} - {ticker} - {label}")
+                            operation(ticker, None)
+                            logging.info(f"Successfully processed {label} for {ticker}")
+                        except Exception as e:
+                            error_msg = f"Failed to process {label}: {str(e)}"
+                            ticker_errors[ticker].append(error_msg)
                     ticker_pbar.update(1)
+
+            # Errors
             for ticker, errors in ticker_errors.items():
                 if errors:
                     logging.error(f"\nErrors for {ticker}:")
                     for error in errors:
                         logging.error(f"  - {error}")
+
+            # Warnings
+            warning_records = logging.getLogger().handlers[0].records
+            if warning_records:
+                logging.error("\nWarnings:")
+                for record in warning_records:
+                    if record.levelname == 'WARNING':
+                        logging.error(f"  - {record.getMessage()}")
         finally:
-            logging.getLogger().setLevel(logging.INFO)
+            # Restore original logging level
+            logging.getLogger().setLevel(original_level)
 
     #region Populate Functions
     #region Populate Groups

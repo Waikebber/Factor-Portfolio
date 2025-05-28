@@ -1,6 +1,7 @@
 from typing import Callable, List, Dict, Any, Optional, Union, Tuple
 from datetime import datetime
 from .utils import Utils
+import logging
 
 class BaseProcessor:
     def __init__(self, config):
@@ -38,13 +39,15 @@ class BaseProcessor:
             return self._filter_by_date(translated, resolved_start, resolved_end, config_section, start_date, end_date)
 
         except Exception as e:
-            print(f"Final error processing {label} for {ticker}: {e}")
+            error_msg = f"Final error processing {label} for {ticker}: {e}"
+            logging.warning(error_msg)
             return None
     
     def _translate_data(self, translate_fn, raw_data, label, ticker):
         translated = translate_fn(raw_data)
         if not translated:
-            print(f"Failed to translate {label} for {ticker}")
+            error_msg = f"Failed to translate {label} for {ticker}"
+            logging.warning(error_msg)
             return None
         return translated
 
@@ -61,7 +64,8 @@ class BaseProcessor:
     def _fetch_data(self, fetch_fn, label, ticker):
         data = fetch_fn()
         if not data:
-            print(f"No {label} found for {ticker}")
+            error_msg = f"No {label} found for {ticker}"
+            logging.warning(error_msg)
             return None
         return data
 
