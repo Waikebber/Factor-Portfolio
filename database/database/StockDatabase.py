@@ -9,9 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
-from FinancialCalculations import FinancialCalculations
 from .db_writers import *
-from .db_getters.StockDataGetter import StockDataGetter
 from .data_fetchers.FMPFetcher import FMPFetcher
 
 class StockDatabase:
@@ -106,12 +104,6 @@ class StockDatabase:
 
     def update_stock_data(self, tickers: Optional[List[str]] = None, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None) -> bool:
         pass
-
-    def get_getters(self):
-        return StockDataGetter(self._get_connection())
-
-    def prepare_alpha_data(self, factor_df, returns, lookback=252):
-        return FinancialCalculations.prepare_alpha_data(factor_df, returns, lookback)
 
 if __name__ == "__main__":
     db = StockDatabase()
