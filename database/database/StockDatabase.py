@@ -15,7 +15,7 @@ from .db_getters.StockDataGetter import StockDataGetter
 from .data_fetchers.FMPFetcher import FMPFetcher
 
 class StockDatabase:
-    def __init__(self, db_name='stock_data.db'):
+    def __init__(self, db_name='../stock_data.db'):
         self.db_name = db_name
         self.db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), db_name)
         self.data_fetcher = FMPFetcher()
