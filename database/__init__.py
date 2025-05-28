@@ -1,11 +1,10 @@
 from .database.StockDatabase import StockDatabase
 from .endpoints.FMPEndpoint import FMPEndpoint
-from .FinancialCalculations import FinancialCalculations
-from .database.PopulateDatabase import PopulateDatabase
+from .database.services import *
 
 __all__ = [
     'StockDatabase',
     'FMPEndpoint',
-    'FinancialCalculations',
-    'PopulateDatabase'
+    'DatabasePopulator',
+    'DatabaseGetter'
 ]
