@@ -1,13 +1,20 @@
 # Stock Database Package
 
-A SQLite-based database package for managing stock market data, including price history and fundamental data for S&P 500 stocks.
+A SQLite-based database package for managing comprehensive stock market data, including price history, fundamental data, financial metrics, and market indicators for stocks.
+
+The database data is derived from the 
 
 ## Features
 
 - SQLite database for persistent storage of stock data
-- Automatic S&P 500 ticker collection
-- Price history storage and retrieval
-- Fundamental data storage and retrieval
+- Comprehensive data storage including:
+  - Core stock information
+  - Market data (prices, dividends, splits)
+  - Financial metrics and ratios
+  - Valuation metrics
+  - Analyst data and estimates
+  - Macroeconomic indicators
+  - Growth metrics
 - Automatic data updates
 - Data preparation utilities for factor analysis
 - Progress bars for long-running operations
@@ -17,7 +24,7 @@ A SQLite-based database package for managing stock market data, including price 
 The package is part of the factor portfolio project. Make sure you have the required dependencies:
 
 ```bash
-pip install pandas numpy yfinance tqdm
+pip install pandas numpy yfinance tqdm XlsxWriter
 ```
 
 ## Usage
@@ -25,100 +32,69 @@ pip install pandas numpy yfinance tqdm
 ### Basic Usage
 
 ```python
-from database import StockDatabase
+from database.StockDatabase import StockDatabase
+from database.services import DatabasePopulator
 
-# Create database instance
+# Create/initialize database instance
 db = StockDatabase()
-
-# Initialize database (creates tables if they don't exist)
 db.initialize()
 
-# Get S&P 500 tickers
-tickers = db.get_sp500_tickers()
+# Initial Setup Population
+populator = DatabasePopulator(db)
+populator.set_up_database()
 
-# Update stock data
-db.update_stock_data(tickers)
-
-# Get price data
-price_data = db.get_price_data(tickers, start_date, end_date)
-
-# Get fundamental data
-fundamental_data = db.get_fundamental_data(tickers)
-```
-
-### Command Line Interface
-
-The package includes a command-line script for populating and updating the database:
-
-```bash
-# Initial population with default settings (3 years of data)
-python -m database.populate_database
-
-# Force update all data
-python -m database.populate_database --force
-
-# Download 5 years of historical data
-python -m database.populate_database --days 1825
+# Populate the table with data from the S&P500
+populator.populate_sp500()
 ```
 
 ## Database Structure
 
-The database contains three main tables:
+The database is organized into several logical sections:
 
-1. `price_data`:
-   - `date`: Date of the price
-   - `ticker`: Stock symbol
-   - `adj_close`: Adjusted closing price
+### Core Tables
+- `stocks`: Basic stock information (symbol, company name, industry, sector)
+- `employee_count`: Historical employee count data
 
-2. `fundamental_data`:
-   - `ticker`: Stock symbol (primary key)
-   - `market_cap`: Market capitalization
-   - `pe_ratio`: Price-to-Earnings ratio
-   - `pb_ratio`: Price-to-Book ratio
-   - `dividend_yield`: Dividend yield
-   - `last_updated`: Timestamp of last update
+### Market Data Tables
+- `prices`: Historical price data (OHLCV)
+- `dividends`: Historical dividend data
+- `splits`: Stock split history
+- `dividend_adjusted_price_data`: Price data adjusted for corporate actions
+- `market_cap`: Market capitalization data
+- `share_float`: Information about shares available for trading
 
-3. `metadata`:
-   - `key`: Metadata key
-   - `value`: Metadata value
+### Financial Metrics Tables
+- `financial_ratios`: Comprehensive financial ratios and metrics
+- `key_metrics`: Important financial metrics (revenue, profit, EPS)
+- `earnings`: Earnings data
 
-## API Reference
+### Valuation Tables
+- `discounted_cash_flow`: DCF valuation data
+- `levered_discounted_cash_flow`: Levered DCF valuation data
+- `enterprise_values`: Enterprise value calculations
+- `owner_earnings`: Owner earnings metrics
 
-### StockDatabase Class
+### Analyst Data Tables
+- `grades`: Analyst grades for stocks
+- `grades_consensus`: Consensus analyst grades
+- `price_target_summary`: Analyst price targets
+- `price_target_consensus`: Consensus price targets
 
-Main class for database operations.
+### Macro Tables
+- `treasury_rates`: Treasury bond rates across different maturities
+- `economic_indicators`: Key economic indicators
+- `industry_pe`: Industry-wide P/E ratios
+- `sector_pe`: Sector-wide P/E ratios
+- `industry_performance`: Industry performance metrics
+- `sector_performance`: Sector performance metrics
+- `mergers_acquisitions`: M&A activity data
 
-#### Methods
+### Analysis Tables
+- `analyst_ratings`: Detailed analyst ratings and recommendations
+- `analyst_estimates`: Detailed analyst estimates for various financial metrics
 
-- `initialize()`: Initialize database and create tables
-- `delete()`: Delete the database file
-- `get_last_update()`: Get timestamp of last data update
-- `get_sp500_tickers()`: Get list of S&P 500 tickers
-- `update_stock_data(tickers, start_date=None, end_date=None)`: Update stock data
-- `get_price_data(tickers, start_date=None, end_date=None)`: Get price data
-- `get_fundamental_data(tickers)`: Get fundamental data
-- `get_available_tickers()`: Get list of available tickers
-- `get_data_range()`: Get date range of available data
-- `prepare_alpha_data(factor_df, returns, lookback=252)`: Prepare data for alpha modeling
-
-### populate_database Function
-
-High-level function for populating and updating the database.
-
-#### Parameters
-
-- `force_update` (bool): Whether to force update all data
-- `days_back` (int): Number of days of historical data to download
-
-## Data Sources
-
-- Price data: Yahoo Finance (yfinance)
-- S&P 500 tickers: Wikipedia
-- Fundamental data: Yahoo Finance (yfinance)
-
-## Notes
-
-- The database is stored in the package directory as `stock_data.db`
-- Data is automatically updated if it's older than 1 day
-- Default historical data range is 3 years
-- All dates are stored in 'YYYY-MM-DD' format 
+### Growth Tables
+- `financial_statement_growth`: Comprehensive growth metrics for financial statements
+- `cashflow_statement_growth`: Growth metrics for cash flow statement items
+- `balance_sheet_growth`: Growth metrics for balance sheet items
+- `income_statement_growth`: Growth metrics for income statement items

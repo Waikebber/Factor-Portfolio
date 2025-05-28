@@ -8,7 +8,6 @@ This document provides a comprehensive overview of all database tables and their
 - [Financial Metrics Tables](#financial-metrics-tables)
 - [Valuation Tables](#valuation-tables)
 - [Analyst Data Tables](#analyst-data-tables)
-- [Corporate Actions Tables](#corporate-actions-tables)
 - [Macro Tables](#macro-tables)
 - [Analysis Tables](#analysis-tables)
 - [Growth Tables](#growth-tables)
@@ -26,9 +25,7 @@ Primary table containing basic stock information.
 | industry | TEXT | Company's industry classification |
 | sector | TEXT | Company's sector classification |
 | country | TEXT | Country of primary listing |
-| full_time_employees | INTEGER | Number of full-time employees |
 | is_actively_trading | BOOLEAN | Whether the stock is currently trading |
-| is_adr | BOOLEAN | Whether the stock is an American Depositary Receipt |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### employee_count
@@ -110,17 +107,28 @@ Information about shares available for trading.
 ## Financial Metrics Tables
 
 ### financial_ratios
-Key financial ratios.
+Comprehensive financial ratios and metrics.
 
 | Column | Type | Description |
 |--------|------|-------------|
 | symbol | TEXT | Foreign key to stocks table |
 | date | TEXT | Date of ratios |
+| fiscal_year | TEXT | Fiscal year |
+| period | TEXT | Financial period |
+| reported_currency | TEXT | Currency of reported values |
+| gross_profit_margin | REAL | Gross profit margin |
+| ebit_margin | REAL | EBIT margin |
+| ebitda_margin | REAL | EBITDA margin |
+| operating_profit_margin | REAL | Operating profit margin |
+| pretax_profit_margin | REAL | Pretax profit margin |
+| net_profit_margin | REAL | Net profit margin |
 | current_ratio | REAL | Current assets / current liabilities |
 | quick_ratio | REAL | (Current assets - inventory) / current liabilities |
-| debt_to_equity | REAL | Total debt / total equity |
-| return_on_equity | REAL | Net income / total equity |
-| return_on_assets | REAL | Net income / total assets |
+| debt_to_equity_ratio | REAL | Total debt / total equity |
+| price_to_earnings_ratio | REAL | Price / earnings per share |
+| price_to_book_ratio | REAL | Price / book value per share |
+| price_to_sales_ratio | REAL | Price / sales per share |
+| dividend_yield | REAL | Annual dividend / current price |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### key_metrics
@@ -137,15 +145,14 @@ Important financial metrics.
 | eps | REAL | Earnings per share |
 | last_updated | TEXT | Timestamp of last data update |
 
-### stock_metrics
-Stock-specific performance metrics.
+### earnings
+Earnings data.
 
 | Column | Type | Description |
 |--------|------|-------------|
 | symbol | TEXT | Foreign key to stocks table |
-| date | TEXT | Date of metrics |
-| beta | REAL | Stock's beta coefficient |
-| volatility | REAL | Price volatility measure |
+| date | TEXT | Earnings date |
+| eps | REAL | Earnings per share |
 | last_updated | TEXT | Timestamp of last data update |
 
 ## Valuation Tables
@@ -232,28 +239,6 @@ Consensus price targets.
 | consensus_price | REAL | Consensus price target |
 | last_updated | TEXT | Timestamp of last data update |
 
-## Corporate Actions Tables
-
-### mergers_acquisitions
-M&A activity data.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| symbol | TEXT | Foreign key to stocks table |
-| date | TEXT | Announcement date |
-| deal_type | TEXT | Type of deal |
-| last_updated | TEXT | Timestamp of last data update |
-
-### earnings
-Earnings data.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| symbol | TEXT | Foreign key to stocks table |
-| date | TEXT | Earnings date |
-| eps | REAL | Earnings per share |
-| last_updated | TEXT | Timestamp of last data update |
-
 ## Macro Tables
 
 ### treasury_rates
@@ -325,6 +310,16 @@ Sector performance metrics.
 | sector | TEXT | Sector name |
 | date | TEXT | Date of performance data |
 | performance | REAL | Sector performance metric |
+| last_updated | TEXT | Timestamp of last data update |
+
+### mergers_acquisitions
+M&A activity data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| symbol | TEXT | Foreign key to stocks table |
+| date | TEXT | Announcement date |
+| deal_type | TEXT | Type of deal |
 | last_updated | TEXT | Timestamp of last data update |
 
 ## Analysis Tables
@@ -402,26 +397,6 @@ Comprehensive growth metrics for financial statements.
 | rd_expense_growth | REAL | R&D expense growth rate |
 | sga_expenses_growth | REAL | SGA expenses growth rate |
 | free_cash_flow_growth | REAL | Free cash flow growth rate |
-| ten_y_revenue_growth_per_share | REAL | 10-year revenue growth per share |
-| five_y_revenue_growth_per_share | REAL | 5-year revenue growth per share |
-| three_y_revenue_growth_per_share | REAL | 3-year revenue growth per share |
-| ten_y_operating_cf_growth_per_share | REAL | 10-year operating cash flow growth per share |
-| five_y_operating_cf_growth_per_share | REAL | 5-year operating cash flow growth per share |
-| three_y_operating_cf_growth_per_share | REAL | 3-year operating cash flow growth per share |
-| ten_y_net_income_growth_per_share | REAL | 10-year net income growth per share |
-| five_y_net_income_growth_per_share | REAL | 5-year net income growth per share |
-| three_y_net_income_growth_per_share | REAL | 3-year net income growth per share |
-| ten_y_shareholders_equity_growth_per_share | REAL | 10-year shareholders equity growth per share |
-| five_y_shareholders_equity_growth_per_share | REAL | 5-year shareholders equity growth per share |
-| three_y_shareholders_equity_growth_per_share | REAL | 3-year shareholders equity growth per share |
-| ten_y_dividend_per_share_growth_per_share | REAL | 10-year dividend per share growth |
-| five_y_dividend_per_share_growth_per_share | REAL | 5-year dividend per share growth |
-| three_y_dividend_per_share_growth_per_share | REAL | 3-year dividend per share growth |
-| ebitda_growth | REAL | EBITDA growth rate |
-| growth_capital_expenditure | REAL | Growth capital expenditure |
-| ten_y_bottom_line_net_income_growth_per_share | REAL | 10-year bottom line net income growth per share |
-| five_y_bottom_line_net_income_growth_per_share | REAL | 5-year bottom line net income growth per share |
-| three_y_bottom_line_net_income_growth_per_share | REAL | 3-year bottom line net income growth per share |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### cashflow_statement_growth
@@ -464,13 +439,6 @@ Growth metrics for cash flow statement items.
 | growth_operating_cash_flow | REAL | Growth in operating cash flow |
 | growth_capital_expenditure | REAL | Growth in capital expenditure |
 | growth_free_cash_flow | REAL | Growth in free cash flow |
-| growth_net_debt_issuance | REAL | Growth in net debt issuance |
-| growth_long_term_net_debt_issuance | REAL | Growth in long-term debt issuance |
-| growth_short_term_net_debt_issuance | REAL | Growth in short-term debt issuance |
-| growth_net_stock_issuance | REAL | Growth in net stock issuance |
-| growth_preferred_dividends_paid | REAL | Growth in preferred dividends paid |
-| growth_income_taxes_paid | REAL | Growth in income taxes paid |
-| growth_interest_paid | REAL | Growth in interest paid |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### balance_sheet_growth
@@ -525,15 +493,6 @@ Growth metrics for balance sheet items.
 | growth_total_investments | REAL | Growth in total investments |
 | growth_total_debt | REAL | Growth in total debt |
 | growth_net_debt | REAL | Growth in net debt |
-| growth_accounts_receivables | REAL | Growth in accounts receivable |
-| growth_other_receivables | REAL | Growth in other receivables |
-| growth_prepaids | REAL | Growth in prepaid expenses |
-| growth_total_payables | REAL | Growth in total payables |
-| growth_other_payables | REAL | Growth in other payables |
-| growth_accrued_expenses | REAL | Growth in accrued expenses |
-| growth_capital_lease_obligations_current | REAL | Growth in current capital lease obligations |
-| growth_additional_paid_in_capital | REAL | Growth in additional paid-in capital |
-| growth_treasury_stock | REAL | Growth in treasury stock |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### income_statement_growth
@@ -578,4 +537,7 @@ Growth metrics for income statement items.
 | last_updated | TEXT | Timestamp of last data update |
 
 ## Notes
-- All tables include a `last_updated`
+- All tables include a `last_updated` timestamp field
+- All tables with a `symbol` column have a foreign key reference to the `stocks` table
+- Date fields are stored as TEXT in ISO format (YYYY-MM-DD)
+- All monetary values are stored as REAL numbers

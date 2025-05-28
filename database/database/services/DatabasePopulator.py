@@ -6,6 +6,7 @@ from ..StockDatabase import StockDatabase
 from ..db_writers import *
 from ..processing import *
 from ..data_fetchers.FMPFetcher import FMPFetcher
+from ..data_fetchers.WikiFetcher import WikiFetcher
 from tqdm import tqdm
 import os
 
@@ -78,6 +79,12 @@ class DatabasePopulator:
         finally:
             logging.getLogger().setLevel(logging.INFO)
 
+    def populate_sp500(self):
+        """Populate the database with S&P 500 data."""
+        wiki_fetcher = WikiFetcher()
+        tickers = wiki_fetcher.get_sp500_tickers()
+        self.populate_batch(tickers)
+
     def populate(self, tickers: Optional[List[str]] = None):
         """
         Populate the database with data for the specified tickers.
@@ -95,7 +102,6 @@ class DatabasePopulator:
         """
         Process a batch of tickers sequentially with progress bar.
         """
-        # Define the operations for each ticker
         operations = [
             (self.populate_core, "Core Data"),
             (self.populate_analysis_data, "Analysis Data"),
@@ -105,24 +111,30 @@ class DatabasePopulator:
             (self.populate_market_data, "Market Data"),
             (self.populate_valuation, "Valuation Data")
         ]
-
-        # Disable logging output during progress bar display
         logging.getLogger().setLevel(logging.ERROR)
         
+        ticker_errors = {}
         try:
             with tqdm(total=len(tickers), desc="Overall Progress", position=0) as ticker_pbar:
                 for ticker in tickers:
+                    ticker_errors[ticker] = []
                     with tqdm(total=len(operations), desc=f"Processing {ticker}", position=1, leave=False) as op_pbar:
                         for operation, label in operations:
                             try:
                                 operation(ticker, None)
                                 logging.info(f"Successfully processed {label} for {ticker}")
                             except Exception as e:
-                                logging.error(f"Failed to process {label} for {ticker}: {e}")
+                                error_msg = f"Failed to process {label}: {str(e)}"
+                                ticker_errors[ticker].append(error_msg)
                             finally:
                                 op_pbar.update(1)
                                 op_pbar.set_description(f"Processing {ticker} - {label}")
                     ticker_pbar.update(1)
+            for ticker, errors in ticker_errors.items():
+                if errors:
+                    logging.error(f"\nErrors for {ticker}:")
+                    for error in errors:
+                        logging.error(f"  - {error}")
         finally:
             logging.getLogger().setLevel(logging.INFO)
 
