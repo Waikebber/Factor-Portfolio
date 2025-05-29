@@ -409,36 +409,36 @@ Growth metrics for cash flow statement items.
 | fiscal_year | TEXT | Fiscal year |
 | period | TEXT | Financial period |
 | reported_currency | TEXT | Currency of reported values |
-| growth_net_income | REAL | Growth in net income |
-| growth_depreciation_and_amortization | REAL | Growth in depreciation and amortization |
-| growth_deferred_income_tax | REAL | Growth in deferred income tax |
-| growth_stock_based_compensation | REAL | Growth in stock-based compensation |
-| growth_change_in_working_capital | REAL | Growth in working capital changes |
-| growth_accounts_receivables | REAL | Growth in accounts receivables |
-| growth_inventory | REAL | Growth in inventory |
-| growth_accounts_payables | REAL | Growth in accounts payables |
-| growth_other_working_capital | REAL | Growth in other working capital items |
-| growth_other_non_cash_items | REAL | Growth in other non-cash items |
-| growth_net_cash_provided_by_operating_activities | REAL | Growth in net cash from operations |
-| growth_investments_in_property_plant_and_equipment | REAL | Growth in PP&E investments |
-| growth_acquisitions_net | REAL | Growth in net acquisitions |
-| growth_purchases_of_investments | REAL | Growth in investment purchases |
-| growth_sales_maturities_of_investments | REAL | Growth in investment sales/maturities |
-| growth_other_investing_activities | REAL | Growth in other investing activities |
-| growth_net_cash_used_for_investing_activities | REAL | Growth in net cash used for investing |
-| growth_debt_repayment | REAL | Growth in debt repayment |
-| growth_common_stock_issued | REAL | Growth in common stock issuance |
-| growth_common_stock_repurchased | REAL | Growth in stock repurchases |
-| growth_dividends_paid | REAL | Growth in dividends paid |
-| growth_other_financing_activities | REAL | Growth in other financing activities |
-| growth_net_cash_used_provided_by_financing_activities | REAL | Growth in net cash from financing |
-| growth_effect_of_forex_changes_on_cash | REAL | Growth in forex impact on cash |
-| growth_net_change_in_cash | REAL | Growth in net cash change |
-| growth_cash_at_end_of_period | REAL | Growth in ending cash balance |
-| growth_cash_at_beginning_of_period | REAL | Growth in beginning cash balance |
-| growth_operating_cash_flow | REAL | Growth in operating cash flow |
-| growth_capital_expenditure | REAL | Growth in capital expenditure |
-| growth_free_cash_flow | REAL | Growth in free cash flow |
+| net_income | REAL | Growth in net income |
+| depreciation_and_amortization | REAL | Growth in depreciation and amortization |
+| deferred_income_tax | REAL | Growth in deferred income tax |
+| stock_based_compensation | REAL | Growth in stock-based compensation |
+| change_in_working_capital | REAL | Growth in working capital changes |
+| accounts_receivables | REAL | Growth in accounts receivables |
+| inventory | REAL | Growth in inventory |
+| accounts_payables | REAL | Growth in accounts payables |
+| other_working_capital | REAL | Growth in other working capital items |
+| other_non_cash_items | REAL | Growth in other non-cash items |
+| net_cash_provided_by_operating_activities | REAL | Growth in net cash from operations |
+| investments_in_property_plant_and_equipment | REAL | Growth in PP&E investments |
+| acquisitions_net | REAL | Growth in net acquisitions |
+| purchases_of_investments | REAL | Growth in investment purchases |
+| sales_maturities_of_investments | REAL | Growth in investment sales/maturities |
+| other_investing_activities | REAL | Growth in other investing activities |
+| net_cash_used_for_investing_activities | REAL | Growth in net cash used for investing |
+| debt_repayment | REAL | Growth in debt repayment |
+| common_stock_issued | REAL | Growth in common stock issuance |
+| common_stock_repurchased | REAL | Growth in stock repurchases |
+| dividends_paid | REAL | Growth in dividends paid |
+| other_financing_activities | REAL | Growth in other financing activities |
+| net_cash_used_provided_by_financing_activities | REAL | Growth in net cash from financing |
+| effect_of_forex_changes_on_cash | REAL | Growth in forex impact on cash |
+| net_change_in_cash | REAL | Growth in net cash change |
+| cash_at_end_of_period | REAL | Growth in ending cash balance |
+| cash_at_beginning_of_period | REAL | Growth in beginning cash balance |
+| operating_cash_flow | REAL | Growth in operating cash flow |
+| capital_expenditure | REAL | Growth in capital expenditure |
+| free_cash_flow | REAL | Growth in free cash flow |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### balance_sheet_growth
@@ -451,48 +451,48 @@ Growth metrics for balance sheet items.
 | fiscal_year | TEXT | Fiscal year |
 | period | TEXT | Financial period |
 | reported_currency | TEXT | Currency of reported values |
-| growth_cash_and_cash_equivalents | REAL | Growth in cash and equivalents |
-| growth_short_term_investments | REAL | Growth in short-term investments |
-| growth_cash_and_short_term_investments | REAL | Growth in total cash and investments |
-| growth_net_receivables | REAL | Growth in net receivables |
-| growth_inventory | REAL | Growth in inventory |
-| growth_other_current_assets | REAL | Growth in other current assets |
-| growth_total_current_assets | REAL | Growth in total current assets |
-| growth_property_plant_equipment_net | REAL | Growth in net PP&E |
-| growth_goodwill | REAL | Growth in goodwill |
-| growth_intangible_assets | REAL | Growth in intangible assets |
-| growth_goodwill_and_intangible_assets | REAL | Growth in total goodwill and intangibles |
-| growth_long_term_investments | REAL | Growth in long-term investments |
-| growth_tax_assets | REAL | Growth in tax assets |
-| growth_other_non_current_assets | REAL | Growth in other non-current assets |
-| growth_total_non_current_assets | REAL | Growth in total non-current assets |
-| growth_other_assets | REAL | Growth in other assets |
-| growth_total_assets | REAL | Growth in total assets |
-| growth_account_payables | REAL | Growth in accounts payable |
-| growth_short_term_debt | REAL | Growth in short-term debt |
-| growth_tax_payables | REAL | Growth in tax payables |
-| growth_deferred_revenue | REAL | Growth in deferred revenue |
-| growth_other_current_liabilities | REAL | Growth in other current liabilities |
-| growth_total_current_liabilities | REAL | Growth in total current liabilities |
-| growth_long_term_debt | REAL | Growth in long-term debt |
-| growth_deferred_revenue_non_current | REAL | Growth in non-current deferred revenue |
-| growth_deferred_tax_liabilities_non_current | REAL | Growth in non-current deferred tax liabilities |
-| growth_other_non_current_liabilities | REAL | Growth in other non-current liabilities |
-| growth_total_non_current_liabilities | REAL | Growth in total non-current liabilities |
-| growth_other_liabilities | REAL | Growth in other liabilities |
-| growth_total_liabilities | REAL | Growth in total liabilities |
-| growth_preferred_stock | REAL | Growth in preferred stock |
-| growth_common_stock | REAL | Growth in common stock |
-| growth_retained_earnings | REAL | Growth in retained earnings |
-| growth_accumulated_other_comprehensive_income_loss | REAL | Growth in accumulated OCI |
-| growth_othertotal_stockholders_equity | REAL | Growth in other stockholders' equity |
-| growth_total_stockholders_equity | REAL | Growth in total stockholders' equity |
-| growth_minority_interest | REAL | Growth in minority interest |
-| growth_total_equity | REAL | Growth in total equity |
-| growth_total_liabilities_and_stockholders_equity | REAL | Growth in total liabilities and equity |
-| growth_total_investments | REAL | Growth in total investments |
-| growth_total_debt | REAL | Growth in total debt |
-| growth_net_debt | REAL | Growth in net debt |
+| cash_and_cash_equivalents | REAL | Growth in cash and equivalents |
+| short_term_investments | REAL | Growth in short-term investments |
+| cash_and_short_term_investments | REAL | Growth in total cash and investments |
+| net_receivables | REAL | Growth in net receivables |
+| inventory | REAL | Growth in inventory |
+| other_current_assets | REAL | Growth in other current assets |
+| total_current_assets | REAL | Growth in total current assets |
+| property_plant_equipment_net | REAL | Growth in net PP&E |
+| goodwill | REAL | Growth in goodwill |
+| intangible_assets | REAL | Growth in intangible assets |
+| goodwill_and_intangible_assets | REAL | Growth in total goodwill and intangibles |
+| long_term_investments | REAL | Growth in long-term investments |
+| tax_assets | REAL | Growth in tax assets |
+| other_non_current_assets | REAL | Growth in other non-current assets |
+| total_non_current_assets | REAL | Growth in total non-current assets |
+| other_assets | REAL | Growth in other assets |
+| total_assets | REAL | Growth in total assets |
+| account_payables | REAL | Growth in accounts payable |
+| short_term_debt | REAL | Growth in short-term debt |
+| tax_payables | REAL | Growth in tax payables |
+| deferred_revenue | REAL | Growth in deferred revenue |
+| other_current_liabilities | REAL | Growth in other current liabilities |
+| total_current_liabilities | REAL | Growth in total current liabilities |
+| long_term_debt | REAL | Growth in long-term debt |
+| deferred_revenue_non_current | REAL | Growth in non-current deferred revenue |
+| deferred_tax_liabilities_non_current | REAL | Growth in non-current deferred tax liabilities |
+| other_non_current_liabilities | REAL | Growth in other non-current liabilities |
+| total_non_current_liabilities | REAL | Growth in total non-current liabilities |
+| other_liabilities | REAL | Growth in other liabilities |
+| total_liabilities | REAL | Growth in total liabilities |
+| preferred_stock | REAL | Growth in preferred stock |
+| common_stock | REAL | Growth in common stock |
+| retained_earnings | REAL | Growth in retained earnings |
+| accumulated_other_comprehensive_income_loss | REAL | Growth in accumulated OCI |
+| othertotal_stockholders_equity | REAL | Growth in other stockholders' equity |
+| total_stockholders_equity | REAL | Growth in total stockholders' equity |
+| minority_interest | REAL | Growth in minority interest |
+| total_equity | REAL | Growth in total equity |
+| total_liabilities_and_stockholders_equity | REAL | Growth in total liabilities and equity |
+| total_investments | REAL | Growth in total investments |
+| total_debt | REAL | Growth in total debt |
+| net_debt | REAL | Growth in net debt |
 | last_updated | TEXT | Timestamp of last data update |
 
 ### income_statement_growth
@@ -505,35 +505,35 @@ Growth metrics for income statement items.
 | fiscal_year | TEXT | Fiscal year |
 | period | TEXT | Financial period |
 | reported_currency | TEXT | Currency of reported values |
-| growth_revenue | REAL | Growth in revenue |
-| growth_cost_of_revenue | REAL | Growth in cost of revenue |
-| growth_gross_profit | REAL | Growth in gross profit |
-| growth_gross_profit_ratio | REAL | Growth in gross profit ratio |
-| growth_research_and_development_expenses | REAL | Growth in R&D expenses |
-| growth_general_and_administrative_expenses | REAL | Growth in G&A expenses |
-| growth_selling_and_marketing_expenses | REAL | Growth in S&M expenses |
-| growth_other_expenses | REAL | Growth in other expenses |
-| growth_operating_expenses | REAL | Growth in operating expenses |
-| growth_cost_and_expenses | REAL | Growth in total costs and expenses |
-| growth_interest_income | REAL | Growth in interest income |
-| growth_interest_expense | REAL | Growth in interest expense |
-| growth_depreciation_and_amortization | REAL | Growth in depreciation and amortization |
-| growth_ebitda | REAL | Growth in EBITDA |
-| growth_operating_income | REAL | Growth in operating income |
-| growth_income_before_tax | REAL | Growth in income before tax |
-| growth_income_tax_expense | REAL | Growth in income tax expense |
-| growth_net_income | REAL | Growth in net income |
-| growth_eps | REAL | Growth in EPS |
-| growth_eps_diluted | REAL | Growth in diluted EPS |
-| growth_weighted_average_shs_out | REAL | Growth in weighted average shares outstanding |
-| growth_weighted_average_shs_out_dil | REAL | Growth in diluted weighted average shares |
-| growth_ebit | REAL | Growth in EBIT |
-| growth_non_operating_income_excluding_interest | REAL | Growth in non-operating income |
-| growth_net_interest_income | REAL | Growth in net interest income |
-| growth_total_other_income_expenses_net | REAL | Growth in net other income/expenses |
-| growth_net_income_from_continuing_operations | REAL | Growth in net income from continuing operations |
-| growth_other_adjustments_to_net_income | REAL | Growth in other net income adjustments |
-| growth_net_income_deductions | REAL | Growth in net income deductions |
+| revenue | REAL | Growth in revenue |
+| cost_of_revenue | REAL | Growth in cost of revenue |
+| gross_profit | REAL | Growth in gross profit |
+| gross_profit_ratio | REAL | Growth in gross profit ratio |
+| research_and_development_expenses | REAL | Growth in R&D expenses |
+| general_and_administrative_expenses | REAL | Growth in G&A expenses |
+| selling_and_marketing_expenses | REAL | Growth in S&M expenses |
+| other_expenses | REAL | Growth in other expenses |
+| operating_expenses | REAL | Growth in operating expenses |
+| cost_and_expenses | REAL | Growth in total costs and expenses |
+| interest_income | REAL | Growth in interest income |
+| interest_expense | REAL | Growth in interest expense |
+| depreciation_and_amortization | REAL | Growth in depreciation and amortization |
+| ebitda | REAL | Growth in EBITDA |
+| operating_income | REAL | Growth in operating income |
+| income_before_tax | REAL | Growth in income before tax |
+| income_tax_expense | REAL | Growth in income tax expense |
+| net_income | REAL | Growth in net income |
+| eps | REAL | Growth in EPS |
+| eps_diluted | REAL | Growth in diluted EPS |
+| weighted_average_shs_out | REAL | Growth in weighted average shares outstanding |
+| weighted_average_shs_out_dil | REAL | Growth in diluted weighted average shares |
+| ebit | REAL | Growth in EBIT |
+| non_operating_income_excluding_interest | REAL | Growth in non-operating income |
+| net_interest_income | REAL | Growth in net interest income |
+| total_other_income_expenses_net | REAL | Growth in net other income/expenses |
+| net_income_from_continuing_operations | REAL | Growth in net income from continuing operations |
+| other_adjustments_to_net_income | REAL | Growth in other net income adjustments |
+| net_income_deductions | REAL | Growth in net income deductions |
 | last_updated | TEXT | Timestamp of last data update |
 
 ## Notes

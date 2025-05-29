@@ -3,7 +3,7 @@ Momentum factor implementation.
 """
 
 import pandas as pd
-from .base import Factor
+from .BaseFactor import Factor
 
 class MomentumFactor(Factor):
     """Momentum factor based on trailing returns"""

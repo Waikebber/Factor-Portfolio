@@ -1,54 +1,81 @@
-# Factor Investing Portfolio
+# Quantamental Factor Portfolio Framework
 
-A Python-based machine learning-driven factor investing portfolio system that combines traditional factor investing principles with modern machine learning techniques.
+This project is a modular and extensible framework for building quantitative multi-factor portfolios. It supports rule-based, statistical, and machine learning-driven factor scoring. The system is designed to integrate fundamental data, technical signals, sector/macro overlays, and trainable model logic in a scalable way.
 
-## Features
+---
 
-- **Data Ingestion**: Automated download and processing of S&P 500 stock data using yfinance
-- **Factor Models**: Implementation of multiple factors:
-  - Value (P/E and P/B ratios)
-  - Momentum (trailing returns)
-  - Volatility (rolling standard deviation)
-  - Size (market capitalization)
-- **Alpha Modeling**: Machine learning-based return prediction using Random Forest or Lasso regression
-- **Risk Modeling**: Covariance estimation with shrinkage techniques
-- **Portfolio Optimization**: Sharpe ratio maximization with constraints
-- **Backtesting**: Rolling window backtesting framework with performance metrics
-- **Visualization**: Interactive plots of returns, factor exposures, and portfolio weights
+## 📁 Project Structure (In Progress)
 
-## Performance Metrics
+Below is the current structure of the major directories in this repo:
 
-The system calculates and displays:
-- Annual Return
-- Annual Volatility
-- Sharpe Ratio
-- Maximum Drawdown
+```plaintext
+.
+├── config/     # Centralized configuration for factor models
+├── factors/    # Factor classes (e.g., Value, Momentum)
+├── ml/         # ML models, transformers, feature pipelines
+├── data_prep/  # Data fetching
+├── portfolio/  # ...
+└── README.md
+```
 
-## Extending the System
+---
 
-### Adding New Factors
-1. Create a new file in the `factors` directory
-2. Inherit from the base `Factor` class
-3. Implement the `compute` method
+## 🔧 `config/`
 
-### Adding New Models
-1. Create a new file in the `models` directory
-2. Implement the required interface (fit/predict methods)
+This directory contains static configuration files, such as:
 
-### Modifying Optimization
-1. Edit `portfolio_optimizer.py` to add new optimization strategies
-2. Modify constraints in the `optimize_sharpe` method
+- `settings.yaml`: defines which factors to activate, which mode to use (rule/stat/ml), and hyperparameters or feature lists for ML-based models.
 
-## Dependencies
+Example:
+```yaml
+factors:
+  value:
+    mode: "ml"
+    model_path: "models/value_model.pkl"
+    type: "random_forest"
+    features: ["peRatio", "pbRatio", "dcf"]
+    hyperparameters:
+      n_estimators: 100
+      max_depth: 5
+```
 
-- numpy>=1.21.0
-- pandas>=1.3.0
-- yfinance>=0.1.70
-- scikit-learn>=0.24.2
-- matplotlib>=3.4.2
-- seaborn>=0.11.1
-- cvxpy>=1.1.7
+---
+## 📊 `factors/`
+This module defines scoring logic for each factor used in portfolio construction.
+- BaseFactor.py: Abstract interface for all factor classes
+- `ValueFactor.py`, `MomentumFactor.py`: Compute raw or model-driven scores
+- `factory.py`: Instantiates and assembles active factors from config
+Each factor supports:
+- rule-based: Hardcoded ratios like 1/P/E or DCF/Price
+- statistical: Normalized scores (e.g., z-score, percentile)
+- ml-based: Uses trained models to score each stock
 
-## License
+---
+## 🧠 `ml/`
+This module handles all machine learning functionality:
+- Training, loading, saving models
+- Feature scaling and transformation
+- Metadata and model management
 
-MIT License 
+Structure:
+```plaintext
+ml/
+├── BaseModel.py               # Abstract model interface (fit, predict, evaluate)
+├── ModelWrapper.py            # Concrete model wrapper with metadata support
+├── ModelFactory.py            # Loads models from config
+├── FeaturePipeline.py         # Custom pipeline runner for chained transformations
+├── FeatureEngineering.py      # Utility functions (z-score, percentile, etc.)
+└── transformers/              # Reusable transformer classes
+    ├── ZScoreTransformer.py
+    ├── MinMaxTransformer.py
+    └── RankPercentileTransformer.py
+
+```
+
+Each model stores `.pkl` weights and `.meta.json` metadata to ensure reproducibility and version tracking.
+
+---
+ ## Next Steps (To Be Added)
+- `portfolio/`: Portfolio construction engine
+- `data_prep/`: Fetchers, processors, and database interface
+- `backtest/`: Backtesting and evaluation tools
