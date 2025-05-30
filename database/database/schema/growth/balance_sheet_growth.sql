@@ -61,6 +61,6 @@ CREATE TABLE IF NOT EXISTS balance_sheet_growth (
     additional_paid_in_capital REAL,
     treasury_stock REAL,
 
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

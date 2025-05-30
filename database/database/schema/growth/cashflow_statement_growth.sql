@@ -49,6 +49,6 @@ CREATE TABLE IF NOT EXISTS cashflow_statement_growth (
     income_taxes_paid REAL,
     interest_paid REAL,
 
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

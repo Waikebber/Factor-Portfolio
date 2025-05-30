@@ -82,6 +82,6 @@ CREATE TABLE IF NOT EXISTS financial_ratios (
     effective_tax_rate REAL,
     enterprise_value_multiple REAL,
 
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

@@ -48,6 +48,6 @@ CREATE TABLE IF NOT EXISTS financial_statement_growth (
     five_y_bottom_line_net_income_growth_per_share REAL,
     three_y_bottom_line_net_income_growth_per_share REAL,
 
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

@@ -36,6 +36,6 @@ CREATE TABLE IF NOT EXISTS income_statement_growth (
     other_adjustments_to_net_income REAL,
     net_income_deductions REAL,
 
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );

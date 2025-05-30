@@ -47,6 +47,6 @@ CREATE TABLE IF NOT EXISTS key_metrics (
     fcf_to_firm REAL,
     tangible_asset_value REAL,
     net_current_asset_value REAL,
-    PRIMARY KEY (symbol, date),
+    PRIMARY KEY (symbol, date, reported_currency),
     FOREIGN KEY (symbol) REFERENCES stocks(symbol)
 );
