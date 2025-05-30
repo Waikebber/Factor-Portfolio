@@ -3,9 +3,9 @@ Momentum factor implementation.
 """
 
 import pandas as pd
-from .BaseFactor import Factor
+from .BaseFactor import BaseFactor
 
-class MomentumFactor(Factor):
+class MomentumFactor(BaseFactor):
     """Momentum factor based on trailing returns"""
     def compute(self, price_data, fundamental_data):
         """Compute momentum factor scores using trailing returns.

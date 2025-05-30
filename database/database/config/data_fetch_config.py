@@ -26,7 +26,7 @@ class DataFetchConfig:
     })
 
     ratings: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 10
+        'limit': 100
     })
 
     grades: Dict[str, Any] = field(default_factory=lambda: {
@@ -35,7 +35,7 @@ class DataFetchConfig:
 
     ################### Core ###################
     employee_count: Dict[str, Any] = field(default_factory=lambda: {
-        'limit': 50
+        'limit': 100
     })
 
     ################### Market Data ###################

@@ -11,9 +11,9 @@ Below is the current structure of the major directories in this repo:
 ```plaintext
 .
 ├── config/     # Centralized configuration for factor models
+├── fetchers/   # Data fetching
 ├── factors/    # Factor classes (e.g., Value, Momentum)
 ├── ml/         # ML models, transformers, feature pipelines
-├── data_prep/  # Data fetching
 ├── portfolio/  # ...
 └── README.md
 ```
@@ -38,17 +38,40 @@ factors:
       n_estimators: 100
       max_depth: 5
 ```
+---
+## 📦 `fetchers`/
+This module handles all raw data ingestion and database interaction:
+
+Structure:
+```plaintext
+fetchers/
+├── FetchFactory.py    # Initializes and assembles relevant data
+└── fetchers/
+    ├── BaseFetcher.py          # Abstract fetcher (fetch, fetch_range)
+    └── ValueFactorFetch.py     # Fetches data specific to the ValueFactor
+```
+
+All fetchers return pandas DataFrames aligned on `symbol` and `date`, ready for scoring or transformation.
 
 ---
 ## 📊 `factors/`
 This module defines scoring logic for each factor used in portfolio construction.
-- BaseFactor.py: Abstract interface for all factor classes
-- `ValueFactor.py`, `MomentumFactor.py`: Compute raw or model-driven scores
-- `factory.py`: Instantiates and assembles active factors from config
+
 Each factor supports:
 - rule-based: Hardcoded ratios like 1/P/E or DCF/Price
 - statistical: Normalized scores (e.g., z-score, percentile)
 - ml-based: Uses trained models to score each stock
+
+Structure:
+```plaintext
+factors/
+├── FactorFactory.py      # Instantiates and assembles active factors from config
+└── factors/              # Directory for factor implementations
+    ├── BaseFactor.py     # Abstract interface for all factor classes
+    ├── ValueFactor.py
+    └── RankPercentileTransformer.py
+
+```
 
 ---
 ## 🧠 `ml/`
@@ -75,7 +98,7 @@ ml/
 Each model stores `.pkl` weights and `.meta.json` metadata to ensure reproducibility and version tracking.
 
 ---
+
  ## Next Steps (To Be Added)
 - `portfolio/`: Portfolio construction engine
-- `data_prep/`: Fetchers, processors, and database interface
 - `backtest/`: Backtesting and evaluation tools
