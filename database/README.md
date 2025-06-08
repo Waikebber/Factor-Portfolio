@@ -19,14 +19,6 @@ The database data is derived from the
 - Data preparation utilities for factor analysis
 - Progress bars for long-running operations
 
-## Installation
-
-The package is part of the factor portfolio project. Make sure you have the required dependencies:
-
-```bash
-pip install pandas numpy yfinance tqdm XlsxWriter
-```
-
 ## Usage
 
 ### Basic Usage
