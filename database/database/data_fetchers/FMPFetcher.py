@@ -1,9 +1,15 @@
 import time
-from datetime import datetime
 from typing import List, Optional, Dict, Any
-import pandas as pd
-from endpoints.FMPEndpoint import FMPEndpoint
-from ..config.data_fetch_config import DataFetchConfig
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = str(Path(__file__).parent.parent.parent.parent)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from database.endpoints.FMPEndpoint import FMPEndpoint
+from database.database.config.data_fetch_config import DataFetchConfig
 
 class FMPFetcher:
     def __init__(self, config: Optional[DataFetchConfig] = None):

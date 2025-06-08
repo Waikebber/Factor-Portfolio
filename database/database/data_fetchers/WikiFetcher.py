@@ -1,5 +1,5 @@
 from typing import List
-from endpoints.WikiEndpoint import WikiEndpoint
+from database.endpoints.WikiEndpoint import WikiEndpoint
 
 class WikiFetcher:
     def __init__(self):

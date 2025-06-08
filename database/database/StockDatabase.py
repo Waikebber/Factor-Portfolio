@@ -10,13 +10,11 @@ import pandas as pd
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from .db_writers import *
-from .data_fetchers.FMPFetcher import FMPFetcher
 
 class StockDatabase:
     def __init__(self, db_name='../stock_data.db'):
         self.db_name = db_name
         self.db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), db_name)
-        self.data_fetcher = FMPFetcher()
 
     def _get_connection(self):
         return sqlite3.connect(self.db_path)
@@ -26,11 +24,9 @@ class StockDatabase:
             os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
             conn = self._get_connection()
             cursor = conn.cursor()
-            
-            # Get the schema directory path
+
+            # Initialize schema/execute sql files
             schema_dir = os.path.join(os.path.dirname(__file__), "schema")
-            
-            # Define the order of schema directories to ensure proper table creation
             schema_dirs = [
                 'core',           # Core tables first
                 'market_data',    # Market data tables
@@ -42,16 +38,12 @@ class StockDatabase:
                 'analysis',       # Analysis tables
                 'growth'          # Growth tables
             ]
-            
-            # Process each directory in order
             with tqdm(total=len(schema_dirs), desc="Initializing database schema", unit="dir") as pbar:
                 for dir_name in schema_dirs:
                     dir_path = os.path.join(schema_dir, dir_name)
                     if os.path.exists(dir_path):
                         sql_files = [f for f in os.listdir(dir_path) if f.endswith('.sql')]
                         sql_files.sort()
-                        
-                        # Execute each SQL file
                         for sql_file in sql_files:
                             file_path = os.path.join(dir_path, sql_file)
                             with open(file_path, 'r') as f:
@@ -101,9 +93,6 @@ class StockDatabase:
             conn.close()
         except Exception as e:
             print(f"Failed to export database to Excel: {e}")
-
-    def update_stock_data(self, tickers: Optional[List[str]] = None, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None) -> bool:
-        pass
 
 if __name__ == "__main__":
     db = StockDatabase()
