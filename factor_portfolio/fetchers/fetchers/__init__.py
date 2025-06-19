@@ -1,7 +1,7 @@
-from .BaseFetcher import BaseFetcher
-from .ValueFactorFetch import ValueFactorFetch
+from . import *
 
 __all__ = [
     "BaseFetcher",
-    "ValueFactorFetch"
+    "ValueFactorFetch",
+    "SP500TickersFetcher",
 ]

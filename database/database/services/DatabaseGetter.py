@@ -1,5 +1,6 @@
 from ..StockDatabase import StockDatabase
 from ..db_getters import *
+from ..data_fetchers.WikiFetcher import WikiFetcher
 
 class DatabaseGetter:
     def __init__(self, db: StockDatabase):
@@ -15,3 +16,7 @@ class DatabaseGetter:
         self.macro = GetMacroData(conn)
         self.market_data = GetMarketData(conn)
         self.valuation = GetValuation(conn)
+
+        wiki_fetcher = WikiFetcher()
+        self.ticker = wiki_fetcher.get_sp500_tickers()
+

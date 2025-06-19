@@ -188,4 +188,12 @@ cython_debug/
 *.xlsx
 *.xls
 
+# Models
+models/
+*.pkl
+
+# Test files
+*.ipynb
+!factor_portfolio/tuning/*.ipynb
+
 

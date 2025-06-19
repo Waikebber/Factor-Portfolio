@@ -145,6 +145,11 @@ class ValueFactorFetch(BaseFetcher):
 
         # Compute and fill graham_number
         merged["graham_number_filled"] = (22.5 * merged["eps_actual"] * merged["book_value_per_share"]) ** 0.5
+        
+        # Ensure key_metrics_df date column is datetime before merging
+        key_metrics_df = key_metrics_df.copy()
+        key_metrics_df["date"] = pd.to_datetime(key_metrics_df["date"])
+        
         key_metrics_df = key_metrics_df.merge(
             merged[["symbol", "date", "graham_number_filled"]],
             on=["symbol", "date"],
