@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 import pandas as pd
-import os
+
+import os, sys
 from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
 from database.database.services import DatabaseGetter
 from database.database.StockDatabase import StockDatabase
 
